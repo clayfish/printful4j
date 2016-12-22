@@ -1,10 +1,12 @@
 package in.clayfish.printful;
 
 import android.util.Base64;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 
 import java.io.IOException;
@@ -22,15 +24,24 @@ import in.clayfish.printful.models.Response;
  */
 public class SimpleClient implements Client {
 
+    private final static String TAG = SimpleClient.class.getSimpleName();
+
     private final String base64Key;
     private Configuration configuration;
 
-    SimpleClient(String apiKey) {
+    /**
+     * @param apiKey
+     */
+    public SimpleClient(String apiKey) {
         this(apiKey, new Configuration());
     }
 
-    SimpleClient(String apiKey, Configuration configuration) {
-        this.base64Key = Base64.encodeToString(apiKey.getBytes(), Base64.DEFAULT);
+    /**
+     * @param apiKey
+     * @param configuration
+     */
+    public SimpleClient(String apiKey, Configuration configuration) {
+        this.base64Key = Base64.encodeToString(apiKey.getBytes(), Base64.NO_WRAP);
         this.configuration = configuration;
     }
 
@@ -39,7 +50,7 @@ public class SimpleClient implements Client {
         final String url = configuration.getBaseUrl() + "products";
 
         try {
-            String response = Jsoup.connect(url).ignoreContentType(true).header("Authentication", "Basic " + base64Key).execute().body();
+            String response = createConnection(url).execute().body();
             JSONObject json = new JSONObject(response);
             if (json.getInt("code") == 200) {
                 JSONArray productsJson = json.getJSONArray("result");
@@ -50,9 +61,11 @@ public class SimpleClient implements Client {
                 }
 
                 return result;
+            } else {
+                Log.e(TAG, "Could not connect to Printful. Server response: " + json.getInt("code"));
             }
         } catch (IOException | JSONException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Problem in connecting to Printful API.", e);
         }
 
         return null;
@@ -61,5 +74,20 @@ public class SimpleClient implements Client {
     @Override
     public Response placeOrder(Order order) {
         return null;
+    }
+
+    /**
+     * @param url
+     * @return
+     */
+    private Connection createConnection(final String url) {
+        return Jsoup.connect(url).timeout(configuration.getTimeout())
+                .header("Accept", "application/json")
+                .header("Accept-Encoding", "gzip, deflate, sdch, br")
+                .header("Accept-Language", "en-GB,en;q=0.8,en-US;q=0.6,hi;q=0.4")
+                .header("Connection", "keep-alive")
+                .header("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36")
+                .header("Content-type", "application/json")
+                .ignoreContentType(true).header("Authorization", "Basic " + base64Key);
     }
 }

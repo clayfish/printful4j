@@ -7,6 +7,7 @@ package in.clayfish.printful.models;
 public class Configuration {
 
     private String baseUrl = "https://api.theprintful.com/";
+    private int timeout = 30000;
 
     public String getBaseUrl() {
         return baseUrl;
@@ -17,5 +18,13 @@ public class Configuration {
             baseUrl += "/";
         }
         this.baseUrl = baseUrl;
+    }
+
+    public int getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
     }
 }
