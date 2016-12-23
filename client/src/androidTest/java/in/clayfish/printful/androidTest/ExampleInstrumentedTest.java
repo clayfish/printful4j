@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Locale;
 
 import in.clayfish.printful.Client;
-import in.clayfish.printful.SimpleClient;
+import in.clayfish.printful.CompositeClient;
 import in.clayfish.printful.models.Product;
 
 import static org.junit.Assert.assertEquals;
@@ -43,7 +43,7 @@ public class ExampleInstrumentedTest {
 
     @Before
     public void setup() {
-        client = new SimpleClient("l1zpya7z-w5e3-ce2a:kop5-fvlklkzc0qkn");
+        client = new CompositeClient("l1zpya7z-w5e3-ce2a:kop5-fvlklkzc0qkn");
     }
 
     @Test
