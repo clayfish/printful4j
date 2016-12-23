@@ -11,12 +11,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.List;
 import java.util.Locale;
 
 import in.clayfish.printful.Client;
 import in.clayfish.printful.CompositeClient;
 import in.clayfish.printful.models.Product;
+import in.clayfish.printful.models.Response;
 
 import static org.junit.Assert.assertEquals;
 
@@ -48,15 +48,16 @@ public class ExampleInstrumentedTest {
 
     @Test
     public void testGetAllProducts() throws Exception {
-        List<Product> products = client.getAllProducts();
+        Response<Product> response = client.getAllProductList();
         Log.d(TAG, "Found products on printful-");
 
-        for (Product product : products) {
+        for (Product product : response.getResult()) {
             Log.d(TAG, String.format(Locale.ENGLISH, "%s : %s", product.getBrand(),
                     product.getModel()));
         }
 
-        Assert.assertTrue(products.size() > 0);
+        Assert.assertTrue(response.getCode() == 200);
+        Assert.assertTrue(response.getResult().size() > 0);
     }
 
 }

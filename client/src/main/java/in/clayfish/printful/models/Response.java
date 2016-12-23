@@ -3,6 +3,8 @@ package in.clayfish.printful.models;
 import java.io.Serializable;
 import java.util.List;
 
+import in.clayfish.printful.models.includable.Paging;
+
 /**
  * @author shuklaalok7
  * @since 21/12/2016

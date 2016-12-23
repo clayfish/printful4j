@@ -14,9 +14,9 @@ import java.util.List;
 import in.clayfish.printful.SimpleClient;
 import in.clayfish.printful.models.Configuration;
 import in.clayfish.printful.models.Product;
-import in.clayfish.printful.models.ProductInfo;
 import in.clayfish.printful.models.Response;
-import in.clayfish.printful.models.VariantInfo;
+import in.clayfish.printful.models.info.ProductInfo;
+import in.clayfish.printful.models.info.VariantInfo;
 import in.clayfish.printful.utils.LibUtils;
 
 /**

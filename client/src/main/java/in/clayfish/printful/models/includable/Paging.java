@@ -1,4 +1,4 @@
-package in.clayfish.printful.models;
+package in.clayfish.printful.models.includable;
 
 /**
  * @author shuklaalok7
