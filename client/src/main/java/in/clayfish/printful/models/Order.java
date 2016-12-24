@@ -83,6 +83,9 @@ public class Order extends Entity {
      */
     private PackingSlip packingSlip;
 
+    public Order() {
+    }
+
     /**
      * @param json
      * @throws JSONException

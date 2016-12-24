@@ -2,6 +2,7 @@ package in.clayfish.printful.models;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONStringer;
 
 import java.util.List;
 import java.util.Map;
@@ -26,13 +27,19 @@ public class Product extends Entity {
     private List<?> options;
     private Map<String, ImageSize> dimensions;
 
+    /**
+     *
+     */
     public Product() {
     }
 
+    /**
+     * @param json
+     * @throws JSONException
+     */
     public Product(JSONObject json) throws JSONException {
         super(json);
-
-
+        // TODO implement
     }
 
     public ProductType getType() {
@@ -97,5 +104,28 @@ public class Product extends Entity {
 
     public void setDimensions(Map<String, ImageSize> dimensions) {
         this.dimensions = dimensions;
+    }
+
+    @Override
+    public String toString() {
+        JSONStringer jsonStringer = new JSONStringer();
+
+        try {
+            jsonStringer.object();
+
+            if (getId() > 0) {
+                jsonStringer.key("id");
+                jsonStringer.value(getId());
+            }
+
+            // TODO implement
+
+            jsonStringer.endObject();
+            return jsonStringer.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return "";
     }
 }

@@ -25,6 +25,9 @@ public class PackingSlip {
      */
     private String message;
 
+    public PackingSlip() {
+    }
+
     /**
      * @param json
      */
