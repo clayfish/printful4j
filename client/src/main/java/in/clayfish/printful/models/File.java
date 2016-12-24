@@ -78,7 +78,7 @@ public class File extends Entity {
     /**
      * Medium preview image URL
      */
-    private String preview_url;
+    private String previewUrl;
 
     /**
      * Show file in the Printfile Library (default true)
@@ -205,12 +205,12 @@ public class File extends Entity {
         this.thumbnailUrl = thumbnailUrl;
     }
 
-    public String getPreview_url() {
-        return preview_url;
+    public String getPreviewUrl() {
+        return previewUrl;
     }
 
-    public void setPreview_url(String preview_url) {
-        this.preview_url = preview_url;
+    public void setPreviewUrl(String preview_url) {
+        this.previewUrl = preview_url;
     }
 
     public boolean isVisible() {

@@ -59,10 +59,10 @@ public interface Client {
 
 
     /**
-     * @param status
-     * @param offset
-     * @param limit
-     * @return
+     * @param status Filter by order status
+     * @param offset Result set offset
+     * @param limit  Number of items per page (max 100)
+     * @return list of order objects from your store
      */
     Response<Order> getListOfOrders(OrderStatus status, int offset, int limit);
 

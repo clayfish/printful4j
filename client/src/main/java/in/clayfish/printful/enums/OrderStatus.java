@@ -53,4 +53,15 @@ public enum OrderStatus {
      */
     FULFILLED;
 
+
+    /**
+     * This is the easiest way to loosely find an OrderStatus object for a string
+     *
+     * @param term Term to search status with
+     * @return Found OrderStatus
+     */
+    public static OrderStatus find(String term) {
+        return OrderStatus.valueOf(term.trim().toUpperCase());
+    }
+
 }

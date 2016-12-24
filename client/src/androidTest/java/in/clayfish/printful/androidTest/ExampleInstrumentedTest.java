@@ -43,7 +43,7 @@ public class ExampleInstrumentedTest {
 
     @Before
     public void setup() {
-        client = new CompositeClient("l1zpya7z-w5e3-ce2a:kop5-fvlklkzc0qkn");
+        client = new CompositeClient("YOUR API KEY");
     }
 
     @Test

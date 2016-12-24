@@ -50,10 +50,8 @@ public class ProductCatalogApiClient extends SimpleClient {
 
     @Override
     public Response<Product> getAllProductList() {
-        final String url = configuration.getBaseUrl() + "products";
-
         try {
-            String response = LibUtils.createConnection(base64Key, url, configuration).execute().body();
+            String response = LibUtils.createConnection(base64Key, "products", configuration).execute().body();
             JSONObject json = new JSONObject(response);
             Response<Product> response1 = new Response<>();
             response1.setCode(json.getInt("code"));

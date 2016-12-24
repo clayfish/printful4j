@@ -1,4 +1,4 @@
-package in.clayfish.printful.models;
+package in.clayfish.printful.models.includable;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -8,33 +8,24 @@ import org.json.JSONStringer;
  * @author shuklaalok7
  * @since 24/12/2016
  */
-public class PackingSlip {
+public class GiftData {
 
     /**
-     * Customer service email
+     * Gift message title
      */
-    private String email;
+    private String subject;
 
     /**
-     * Customer service phone (111-222-3333)
-     */
-    private String phone;
-
-    /**
-     * Custom packing slip message
+     * Gift message text
      */
     private String message;
 
     /**
      * @param json
      */
-    public PackingSlip(JSONObject json) throws JSONException {
-        if (json.has("email")) {
-            this.email = json.getString("email");
-        }
-
-        if (json.has("phone")) {
-            this.phone = json.getString("phone");
+    public GiftData(JSONObject json) throws JSONException {
+        if (json.has("subject")) {
+            this.message = json.getString("subject");
         }
 
         if (json.has("message")) {
@@ -42,20 +33,12 @@ public class PackingSlip {
         }
     }
 
-    public String getEmail() {
-        return email;
+    public String getSubject() {
+        return subject;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
     public String getMessage() {
@@ -69,18 +52,12 @@ public class PackingSlip {
     @Override
     public String toString() {
         JSONStringer stringer = new JSONStringer();
-
         try {
             stringer.object();
 
-            if (email != null) {
-                stringer.key("email");
-                stringer.value(email);
-            }
-
-            if (phone != null) {
-                stringer.key("phone");
-                stringer.value(phone);
+            if (subject != null) {
+                stringer.key("subject");
+                stringer.value(subject);
             }
 
             if (message != null) {
