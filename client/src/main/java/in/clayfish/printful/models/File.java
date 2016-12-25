@@ -93,6 +93,10 @@ public class File extends Entity {
 
     public File(JSONObject json) throws JSONException {
         super(json);
+
+        if (json.has("id")) {
+            // FIXME handle "id" with string as well as long
+        }
         // TODO implement
     }
 

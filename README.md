@@ -20,13 +20,13 @@ And add following in dependencies,
 
 ```
 dependencies {
-    compile 'in.clayfish:printful4j:-SNAPSHOT'
+    compile 'in.clayfish:printful4j:0.0.1'
 }
 ```
 
 ### Java
 
-* **Using gradle**, `compile 'in.clayfish:printful4j:-SNAPSHOT'`
+* **Using gradle**, `compile 'in.clayfish:printful4j:0.0.1'`
 * **Using Maven**, Add following in `<repositories>`,
 
 ``` xml
@@ -41,7 +41,7 @@ dependencies {
 <dependency>
     <groupId>in.clayfish</groupId>
     <artifactId>printful4j</artifactId>
-    <version>SNAPSHOT</version>
+    <version>0.0.1</version>
 </dependency>
 ```
 
@@ -51,7 +51,7 @@ resolvers += "jitpack" at "https://jitpack.io"
 ```
 And add following in the dependencies,
 ```
-libraryDependencies += "in.clayfish" % "printful4j" % "SNAPSHOT"
+libraryDependencies += "in.clayfish" % "printful4j" % "0.0.1"
 ```
 
 * **Using leningen**, Add following in your project.clj at the end of repositories,
@@ -60,7 +60,7 @@ libraryDependencies += "in.clayfish" % "printful4j" % "SNAPSHOT"
 ```
 And add following,
 ```
-:dependencies [[in.clayfish/printful4j "SNAPHOST"]]
+:dependencies [[in.clayfish/printful4j "0.0.1"]]
 ```
 
 For more information regarding download or using different build systems, please visit [JitPack](https://jitpack.io/#clayfish/printful4j/SNAPSHOT).

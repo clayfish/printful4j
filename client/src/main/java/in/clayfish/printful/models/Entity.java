@@ -18,9 +18,13 @@ public abstract class Entity implements Serializable {
     public Entity() {
     }
 
-    public Entity(JSONObject json) throws JSONException {
-        if (json != null) {
-            this.id = json.getLong("id");
+    public Entity(JSONObject json) {
+        if (json != null && json.has("id")) {
+            try {
+                this.id = json.getLong("id");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
