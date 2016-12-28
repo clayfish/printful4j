@@ -1,8 +1,5 @@
 package in.clayfish.printful.models;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.Serializable;
 
 /**
@@ -14,19 +11,6 @@ import java.io.Serializable;
 public abstract class Entity implements Serializable {
 
     private long id;
-
-    public Entity() {
-    }
-
-    public Entity(JSONObject json) {
-        if (json != null && json.has("id")) {
-            try {
-                this.id = json.getLong("id");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     public long getId() {
         return id;

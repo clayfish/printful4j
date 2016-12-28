@@ -1,15 +1,13 @@
 package in.clayfish.printful.clients;
 
-import android.util.Base64;
 import android.util.Log;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.reflect.TypeToken;
+
+import org.apache.commons.codec.binary.Base64;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.reflect.Type;
 
 import in.clayfish.printful.SimpleClient;
 import in.clayfish.printful.models.Configuration;
@@ -44,7 +42,7 @@ public class ProductCatalogApiClient extends SimpleClient {
      * @param configuration
      */
     public ProductCatalogApiClient(String apiKey, Configuration configuration) {
-        this.base64Key = Base64.encodeToString(apiKey.getBytes(), Base64.NO_WRAP);
+        this.base64Key = Base64.encodeBase64String(apiKey.getBytes());
         this.configuration = configuration;
     }
 
@@ -52,24 +50,10 @@ public class ProductCatalogApiClient extends SimpleClient {
     public Response<Product> getAllProductList() {
         try {
             String response = LibUtils.createConnection(base64Key, "products", configuration).execute().body();
-            JSONObject json = new JSONObject(response);
-            Response<Product> response1 = new Response<>();
-            response1.setCode(json.getInt("code"));
-
-            if (response1.getCode() == 200) {
-                JSONArray productsJson = json.getJSONArray("result");
-                List<Product> result = new ArrayList<>();
-
-                for (int i = 0; i < productsJson.length(); i++) {
-                    result.add(new Product(productsJson.getJSONObject(i)));
-                }
-
-                response1.setResult(result);
-                return response1;
-            } else {
-                response1.setErrorMessage(json.getString("result"));
-            }
-        } catch (IOException | JSONException e) {
+            Type type = new TypeToken<Response<Product>>() {
+            }.getType();
+            return LibUtils.gson.fromJson(response, type);
+        } catch (IOException e) {
             Log.e(TAG, "Problem in connecting to Printful API.", e);
         }
 

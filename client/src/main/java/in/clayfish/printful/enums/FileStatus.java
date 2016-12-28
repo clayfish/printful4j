@@ -19,4 +19,10 @@ public enum FileStatus {
      * if the process did not succeed
      */
     FAIL;
+
+
+    @Override
+    public String toString() {
+        return this.name().toLowerCase();
+    }
 }

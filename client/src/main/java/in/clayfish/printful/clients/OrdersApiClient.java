@@ -3,15 +3,12 @@ package in.clayfish.printful.clients;
 import android.util.Base64;
 import android.util.Log;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.reflect.TypeToken;
+
 import org.jsoup.Connection;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.lang.reflect.Type;
 import java.util.Locale;
 
 import in.clayfish.printful.SimpleClient;
@@ -71,7 +68,8 @@ public class OrdersApiClient extends SimpleClient {
                 connection.data("limit", String.valueOf(limit));
             }
 
-            return createResponseForMultipleOrders(connection.execute().body());
+//            return createResponseForMultipleOrders(connection.execute().body());
+            return createResponseForSingleOrder(connection.execute().body());
         } catch (IOException e) {
             Log.e(TAG, "Error occurred while getting list of orders.", e);
         }
@@ -212,19 +210,9 @@ public class OrdersApiClient extends SimpleClient {
      * @return Response (Order) object where result contains a singleton list
      */
     private Response<Order> createResponseForSingleOrder(String response) {
-        try {
-            JSONObject responseJson = new JSONObject(response);
-            Response<Order> orderResponse = new Response<>(responseJson);
-
-            if (orderResponse.getCode() == 200) {
-                orderResponse.setResult(Collections.singletonList(new Order(responseJson.getJSONObject("result"))));
-            }
-            return orderResponse;
-        } catch (JSONException e) {
-            Log.e(TAG, "Error occurred while creating JSON from returned response.", e);
-        }
-
-        return null;
+        Type type = new TypeToken<Response<Order>>() {
+        }.getType();
+        return LibUtils.gson.fromJson(response, type);
     }
 
     /**
@@ -232,23 +220,23 @@ public class OrdersApiClient extends SimpleClient {
      * @return Response (Order) object where result can contain more than one Order objects
      */
     private Response<Order> createResponseForMultipleOrders(String response) {
-        try {
-            JSONObject jsonResponse = new JSONObject(response);
-            Response<Order> orderResponse = new Response<>(jsonResponse);
+//        try {
+//            JSONObject jsonResponse = new JSONObject(response);
+//            Response<Order> orderResponse = new Response<>(jsonResponse);
 
-            if (orderResponse.getCode() == 200) {
-                List<Order> orders = new ArrayList<>();
-                JSONArray ordersArray = jsonResponse.getJSONArray("result");
-                for (int i = 0; i < ordersArray.length(); i++) {
-                    orders.add(new Order(ordersArray.getJSONObject(i)));
-                }
-                orderResponse.setResult(orders);
-            }
+//            if (orderResponse.getCode() == 200) {
+//                List<Order> orders = new ArrayList<>();
+//                JSONArray ordersArray = jsonResponse.getJSONArray("result");
+//                for (int i = 0; i < ordersArray.length(); i++) {
+//                    orders.add(new Order(ordersArray.getJSONObject(i)));
+//                }
+//                orderResponse.setResult(orders);
+//            }
 
-            return orderResponse;
-        } catch (JSONException e) {
-            Log.e(TAG, "Error occurred while creating JSON from returned response.", e);
-        }
+//            return orderResponse;
+//        } catch (JSONException e) {
+//            Log.e(TAG, "Error occurred while creating JSON from returned response.", e);
+//        }
 
         return null;
     }

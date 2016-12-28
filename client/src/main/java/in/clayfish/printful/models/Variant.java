@@ -1,9 +1,5 @@
 package in.clayfish.printful.models;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONStringer;
-
 /**
  * @author shuklaalok7
  * @since 21/12/2016
@@ -18,15 +14,6 @@ public class Variant extends Entity {
     private String image;
     private double price;
     private boolean inStock;
-
-    public Variant() {
-    }
-
-    public Variant(JSONObject json) throws JSONException {
-        super(json);
-
-        // TODO implement
-    }
 
     public long getProductId() {
         return productId;
@@ -92,25 +79,4 @@ public class Variant extends Entity {
         this.inStock = inStock;
     }
 
-    @Override
-    public String toString() {
-        JSONStringer jsonStringer = new JSONStringer();
-        try {
-            jsonStringer.object();
-
-            if (getId() > 0) {
-                jsonStringer.key("id");
-                jsonStringer.value(getId());
-            }
-
-            // TODO implement
-
-            jsonStringer.endObject();
-            return jsonStringer.toString();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return "";
-    }
 }

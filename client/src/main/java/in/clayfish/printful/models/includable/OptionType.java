@@ -1,7 +1,5 @@
 package in.clayfish.printful.models.includable;
 
-import org.json.JSONObject;
-
 /**
  * @author shuklaalok7
  * @since 25/12/2016
@@ -27,13 +25,6 @@ public class OptionType {
      * Additional price when this option is used
      */
     private String additionalPrice;
-
-    public OptionType() {
-    }
-
-    public OptionType(JSONObject json) {
-        // TODO implement
-    }
 
     public String getId() {
         return id;
@@ -65,11 +56,5 @@ public class OptionType {
 
     public void setAdditionalPrice(String additionalPrice) {
         this.additionalPrice = additionalPrice;
-    }
-
-    @Override
-    public String toString() {
-        // TODO implement
-        return super.toString();
     }
 }

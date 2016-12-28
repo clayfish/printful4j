@@ -91,7 +91,6 @@ public class Order extends Entity {
      * @throws JSONException
      */
     public Order(JSONObject json) throws JSONException {
-        super(json);
 
         if (json != null) {
             if (json.has("external_id")) {
@@ -121,7 +120,7 @@ public class Order extends Entity {
                 this.items = new ArrayList<>();
                 JSONArray itemsArray = json.getJSONArray("items");
                 for (int i = 0; i < itemsArray.length(); i++) {
-                    this.items.add(new Item(itemsArray.getJSONObject(i)));
+//                    this.items.add(new Item(itemsArray.getJSONObject(i)));
                 }
             }
 

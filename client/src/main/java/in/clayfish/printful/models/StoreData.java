@@ -1,9 +1,5 @@
 package in.clayfish.printful.models;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONStringer;
-
 import java.util.Date;
 
 import in.clayfish.printful.models.includable.Address;
@@ -45,15 +41,6 @@ public class StoreData extends Entity {
      */
     private PackingSlip packingSlip;
     private Date created;
-
-    public StoreData() {
-    }
-
-    public StoreData(JSONObject json) throws JSONException {
-        super(json);
-
-        // TODO implement
-    }
 
     public String getName() {
         return name;
@@ -111,20 +98,4 @@ public class StoreData extends Entity {
         this.created = created;
     }
 
-    @Override
-    public String toString() {
-        JSONStringer jsonStringer = new JSONStringer();
-        try {
-            jsonStringer.object();
-
-            // TODO implement
-
-            jsonStringer.endObject();
-            return jsonStringer.toString();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return "";
-    }
 }

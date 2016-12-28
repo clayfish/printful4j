@@ -66,13 +66,6 @@ public class Item extends Entity {
      */
     private String sku;
 
-    public Item(JSONObject json) throws JSONException {
-        super(json);
-    }
-
-    public Item() {
-    }
-
     public String getExternalId() {
         return externalId;
     }

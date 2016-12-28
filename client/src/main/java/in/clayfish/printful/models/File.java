@@ -88,18 +88,6 @@ public class File extends Entity {
      */
     private boolean visible;
 
-    public File() {
-    }
-
-    public File(JSONObject json) throws JSONException {
-        super(json);
-
-        if (json.has("id")) {
-            // FIXME handle "id" with string as well as long
-        }
-        // TODO implement
-    }
-
     public String getTitle() {
         return title;
     }
@@ -247,4 +235,5 @@ public class File extends Entity {
         }
         return jsonObject.toString();
     }
+
 }

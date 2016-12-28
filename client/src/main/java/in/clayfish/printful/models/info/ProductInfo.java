@@ -1,7 +1,5 @@
 package in.clayfish.printful.models.info;
 
-import org.json.JSONObject;
-
 import java.util.List;
 
 import in.clayfish.printful.models.Product;
@@ -22,12 +20,6 @@ public class ProductInfo {
      * Variants available for the selected product
      */
     private List<Variant> variants;
-
-    public ProductInfo() {
-    }
-
-    public ProductInfo(JSONObject json) {
-    }
 
     public Product getProduct() {
         return product;

@@ -58,8 +58,6 @@ public class Shipment extends Entity {
     private List<Item> items;
 
     public Shipment(JSONObject json) throws JSONException {
-        super(json);
-
         if (json.has("carrier")) {
             this.carrier = json.getString("carrier");
         }
@@ -235,7 +233,6 @@ public class Shipment extends Entity {
         private int quantity;
 
         public Item(JSONObject json) throws JSONException {
-            super(json);
             if (json.has("quantity")) {
                 this.quantity = json.getInt("quantity");
             }

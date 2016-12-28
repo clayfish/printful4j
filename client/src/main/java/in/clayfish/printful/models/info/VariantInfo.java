@@ -1,7 +1,5 @@
 package in.clayfish.printful.models.info;
 
-import org.json.JSONObject;
-
 import in.clayfish.printful.models.Product;
 import in.clayfish.printful.models.Variant;
 
@@ -20,12 +18,6 @@ public class VariantInfo {
      * Information about the Product that the Variant belongs to
      */
     private Product product;
-
-    public VariantInfo() {
-    }
-
-    public VariantInfo(JSONObject json) {
-    }
 
     public Variant getVariant() {
         return variant;
