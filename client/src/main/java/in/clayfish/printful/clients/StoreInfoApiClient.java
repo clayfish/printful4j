@@ -1,6 +1,6 @@
 package in.clayfish.printful.clients;
 
-import android.util.Base64;
+import org.apache.commons.codec.binary.Base64;
 
 import in.clayfish.printful.SimpleClient;
 import in.clayfish.printful.models.Configuration;
@@ -31,7 +31,7 @@ public class StoreInfoApiClient extends SimpleClient {
      * @param configuration
      */
     public StoreInfoApiClient(String apiKey, Configuration configuration) {
-        this.base64Key = Base64.encodeToString(apiKey.getBytes(), Base64.NO_WRAP);
+        this.base64Key = Base64.encodeBase64String(apiKey.getBytes());
         this.configuration = configuration;
     }
 

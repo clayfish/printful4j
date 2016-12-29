@@ -1,10 +1,10 @@
 package in.clayfish.printful.clients;
 
-import android.util.Base64;
 import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
 
+import org.apache.commons.codec.binary.Base64;
 import org.jsoup.Connection;
 
 import java.io.IOException;
@@ -44,7 +44,7 @@ public class OrdersApiClient extends SimpleClient {
      * @param configuration
      */
     public OrdersApiClient(String apiKey, Configuration configuration) {
-        this.base64Key = Base64.encodeToString(apiKey.getBytes(), Base64.NO_WRAP);
+        this.base64Key = Base64.encodeBase64String(apiKey.getBytes());
         this.configuration = configuration;
     }
 
@@ -69,7 +69,7 @@ public class OrdersApiClient extends SimpleClient {
             }
 
 //            return createResponseForMultipleOrders(connection.execute().body());
-            return createResponseForSingleOrder(connection.execute().body());
+            return createResponseFromApi(connection.execute().body());
         } catch (IOException e) {
             Log.e(TAG, "Error occurred while getting list of orders.", e);
         }
@@ -90,9 +90,13 @@ public class OrdersApiClient extends SimpleClient {
                             String.valueOf(updateExisting))
                     .execute().body();
 
-            return createResponseForSingleOrder(response);
+            return createResponseFromApi(response);
         } catch (IOException e) {
-            Log.e(TAG, "Error occurred while creating a new order.", e);
+            try {
+                Log.e(TAG, "Error occurred while creating a new order.", e);
+            } catch (Exception e1) {
+                e.printStackTrace();
+            }
         }
 
         return null;
@@ -102,7 +106,7 @@ public class OrdersApiClient extends SimpleClient {
     public Response<Order> getOrderData(int orderId) {
         try {
             String response = LibUtils.createConnection(base64Key, "orders/" + orderId, configuration).execute().body();
-            return createResponseForSingleOrder(response);
+            return createResponseFromApi(response);
         } catch (IOException e) {
             Log.e(TAG, "Error occurred while getting order data for " + orderId, e);
         }
@@ -115,7 +119,7 @@ public class OrdersApiClient extends SimpleClient {
 
         try {
             String response = LibUtils.createConnection(base64Key, "orders/" + externalId, configuration).execute().body();
-            return createResponseForSingleOrder(response);
+            return createResponseFromApi(response);
         } catch (IOException e) {
             Log.e(TAG, "Error occurred while getting order data for " + externalId, e);
         }
@@ -127,7 +131,7 @@ public class OrdersApiClient extends SimpleClient {
         try {
             String response = LibUtils.createConnection(base64Key, "orders/" + orderId, configuration)
                     .method(Connection.Method.DELETE).execute().body();
-            return createResponseForSingleOrder(response);
+            return createResponseFromApi(response);
         } catch (IOException e) {
             Log.e(TAG, "Error occurred while cancelling order " + orderId, e);
         }
@@ -140,7 +144,7 @@ public class OrdersApiClient extends SimpleClient {
         try {
             String response = LibUtils.createConnection(base64Key, "orders/" + externalId, configuration)
                     .method(Connection.Method.DELETE).execute().body();
-            return createResponseForSingleOrder(response);
+            return createResponseFromApi(response);
         } catch (IOException e) {
             Log.e(TAG, "Error occurred while cancelling order " + externalId, e);
         }
@@ -155,7 +159,7 @@ public class OrdersApiClient extends SimpleClient {
                     .requestBody(order.toString())
                     .data("confirm", String.valueOf(confirm))
                     .execute().body();
-            return createResponseForSingleOrder(response);
+            return createResponseFromApi(response);
         } catch (IOException e) {
             Log.e(TAG, "Error occurred while updating order " + orderId, e);
         }
@@ -171,7 +175,7 @@ public class OrdersApiClient extends SimpleClient {
                     .requestBody(order.toString())
                     .data("confirm", String.valueOf(confirm))
                     .execute().body();
-            return createResponseForSingleOrder(response);
+            return createResponseFromApi(response);
         } catch (IOException e) {
             Log.e(TAG, "Error occurred while updating order " + externalId, e);
         }
@@ -184,7 +188,7 @@ public class OrdersApiClient extends SimpleClient {
             String response = LibUtils.createConnection(base64Key,
                     String.format(Locale.ENGLISH, "orders/%d/confirm", orderId), configuration)
                     .method(Connection.Method.POST).execute().body();
-            return createResponseForSingleOrder(response);
+            return createResponseFromApi(response);
         } catch (IOException e) {
             Log.e(TAG, "Error occurred while confirming order " + orderId, e);
         }
@@ -198,7 +202,7 @@ public class OrdersApiClient extends SimpleClient {
             String response = LibUtils.createConnection(base64Key,
                     String.format(Locale.ENGLISH, "orders/%s/confirm", externalId), configuration)
                     .method(Connection.Method.POST).execute().body();
-            return createResponseForSingleOrder(response);
+            return createResponseFromApi(response);
         } catch (IOException e) {
             Log.e(TAG, "Error occurred while confirming order " + externalId, e);
         }
@@ -209,36 +213,10 @@ public class OrdersApiClient extends SimpleClient {
      * @param response The response obtained from API
      * @return Response (Order) object where result contains a singleton list
      */
-    private Response<Order> createResponseForSingleOrder(String response) {
+    private Response<Order> createResponseFromApi(String response) {
         Type type = new TypeToken<Response<Order>>() {
         }.getType();
         return LibUtils.gson.fromJson(response, type);
-    }
-
-    /**
-     * @param response The response obtained from API
-     * @return Response (Order) object where result can contain more than one Order objects
-     */
-    private Response<Order> createResponseForMultipleOrders(String response) {
-//        try {
-//            JSONObject jsonResponse = new JSONObject(response);
-//            Response<Order> orderResponse = new Response<>(jsonResponse);
-
-//            if (orderResponse.getCode() == 200) {
-//                List<Order> orders = new ArrayList<>();
-//                JSONArray ordersArray = jsonResponse.getJSONArray("result");
-//                for (int i = 0; i < ordersArray.length(); i++) {
-//                    orders.add(new Order(ordersArray.getJSONObject(i)));
-//                }
-//                orderResponse.setResult(orders);
-//            }
-
-//            return orderResponse;
-//        } catch (JSONException e) {
-//            Log.e(TAG, "Error occurred while creating JSON from returned response.", e);
-//        }
-
-        return null;
     }
 
 }

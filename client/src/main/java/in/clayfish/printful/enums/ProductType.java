@@ -41,4 +41,9 @@ public enum ProductType {
 
         return null;
     }
+
+    @Override
+    public String toString() {
+        return this.name().replace("_", "-");
+    }
 }

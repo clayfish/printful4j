@@ -1,10 +1,5 @@
 package in.clayfish.printful.models.includable;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONStringer;
-
 import java.util.List;
 
 import in.clayfish.printful.models.Entity;
@@ -144,83 +139,5 @@ public class Item extends Entity {
 
     public void setSku(String sku) {
         this.sku = sku;
-    }
-
-    @Override
-    public String toString() {
-        JSONStringer jsonStringer = new JSONStringer();
-        try {
-            jsonStringer.object();
-
-            if (getId() > 0) {
-                jsonStringer.key("id");
-                jsonStringer.value(getId());
-            }
-
-            if (externalId != null) {
-                jsonStringer.key("external_id");
-                jsonStringer.value(externalId);
-            }
-
-            if (variantId > 0) {
-                jsonStringer.key("variant_id");
-                jsonStringer.value(variantId);
-            }
-
-            if (quantity > 0) {
-                jsonStringer.key("quantity");
-                jsonStringer.value(quantity);
-            }
-
-            if (price != null) {
-                jsonStringer.key("price");
-                jsonStringer.value(price);
-            }
-
-            if (retailPrice != null) {
-                jsonStringer.key("retail_price");
-                jsonStringer.value(retailPrice);
-            }
-
-            if (name != null) {
-                jsonStringer.key("name");
-                jsonStringer.value(name);
-            }
-
-            if (sku != null) {
-                jsonStringer.key("sku");
-                jsonStringer.value(sku);
-            }
-
-            if (product != null) {
-                jsonStringer.key("product");
-                jsonStringer.value(new JSONObject(product.toString()));
-            }
-
-            if (files != null) {
-                jsonStringer.key("files");
-                JSONArray filesArray = new JSONArray();
-                for (File file : files) {
-                    filesArray.put(new JSONObject(file.toString()));
-                }
-                jsonStringer.value(filesArray);
-            }
-
-            if (options != null) {
-                jsonStringer.key("options");
-                JSONArray optionsArray = new JSONArray();
-                for (ItemOption option : options) {
-                    optionsArray.put(new JSONObject(option.toString()));
-                }
-                jsonStringer.value(optionsArray);
-            }
-
-            jsonStringer.endObject();
-            return jsonStringer.toString();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return "";
     }
 }

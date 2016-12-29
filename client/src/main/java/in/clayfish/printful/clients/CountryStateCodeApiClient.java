@@ -1,11 +1,17 @@
 package in.clayfish.printful.clients;
 
-import android.util.Base64;
+import com.google.gson.reflect.TypeToken;
+
+import org.apache.commons.codec.binary.Base64;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
 
 import in.clayfish.printful.SimpleClient;
 import in.clayfish.printful.models.Configuration;
 import in.clayfish.printful.models.Response;
 import in.clayfish.printful.models.includable.Country;
+import in.clayfish.printful.utils.LibUtils;
 
 /**
  * See https://www.theprintful.com/docs/countries
@@ -31,13 +37,22 @@ public class CountryStateCodeApiClient extends SimpleClient {
      * @param configuration
      */
     public CountryStateCodeApiClient(String apiKey, Configuration configuration) {
-        this.base64Key = Base64.encodeToString(apiKey.getBytes(), Base64.NO_WRAP);
+        this.base64Key = Base64.encodeBase64String(apiKey.getBytes());
         this.configuration = configuration;
     }
 
     @Override
     public Response<Country> retrieveCountryList() {
-        return super.retrieveCountryList();
+        try {
+            String response = LibUtils.createConnection(base64Key, "countries", configuration).execute().body();
+            Type type = new TypeToken<Response<Country>>() {
+            }.getType();
+            return LibUtils.gson.fromJson(response, type);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
 }

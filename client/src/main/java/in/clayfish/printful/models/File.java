@@ -1,8 +1,5 @@
 package in.clayfish.printful.models;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.Date;
 
 import in.clayfish.printful.enums.FileStatus;
@@ -15,7 +12,6 @@ public class File extends Entity {
     private String stringId;
     private String title;
     private double additionalPrice;
-
 
     /**
      * Role of the file in the order
@@ -222,18 +218,6 @@ public class File extends Entity {
 
     public void setVisible(boolean visible) {
         this.visible = visible;
-    }
-
-    @Override
-    public String toString() {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("visible", visible);
-            // TODO implement
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return jsonObject.toString();
     }
 
 }

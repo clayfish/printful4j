@@ -49,7 +49,8 @@ public class ProductCatalogApiClient extends SimpleClient {
     @Override
     public Response<Product> getAllProductList() {
         try {
-            String response = LibUtils.createConnection(base64Key, "products", configuration).execute().body();
+            String response = LibUtils.createConnection(base64Key, "products", configuration)
+                    .execute().body();
             Type type = new TypeToken<Response<Product>>() {
             }.getType();
             return LibUtils.gson.fromJson(response, type);
@@ -62,13 +63,29 @@ public class ProductCatalogApiClient extends SimpleClient {
 
     @Override
     public Response<VariantInfo> getInformationAboutVariant(int variantId) {
-        // TODO implement
-        return super.getInformationAboutVariant(variantId);
+        try {
+            String response = LibUtils.createConnection(base64Key, "products/variant/" + variantId,
+                    configuration).execute().body();
+            Type type = new TypeToken<Response<VariantInfo>>() {
+            }.getType();
+            return LibUtils.gson.fromJson(response, type);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
     public Response<ProductInfo> getProductsVariantsList(int productId) {
-        // TODO implement
-        return super.getProductsVariantsList(productId);
+        try {
+            String response = LibUtils.createConnection(base64Key, "products/" + productId,
+                    configuration).execute().body();
+            Type type = new TypeToken<Response<ProductInfo>>() {
+            }.getType();
+            return LibUtils.gson.fromJson(response, type);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

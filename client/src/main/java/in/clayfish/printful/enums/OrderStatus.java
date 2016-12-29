@@ -64,4 +64,8 @@ public enum OrderStatus {
         return OrderStatus.valueOf(term.trim().toUpperCase());
     }
 
+    @Override
+    public String toString() {
+        return this.name().toLowerCase();
+    }
 }

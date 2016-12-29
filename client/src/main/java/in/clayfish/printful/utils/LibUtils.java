@@ -12,6 +12,7 @@ import org.jsoup.Jsoup;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Date;
 
 import in.clayfish.printful.models.Configuration;
 import in.clayfish.printful.models.Response;
@@ -24,12 +25,19 @@ import in.clayfish.printful.models.includable.ImageSize;
 public abstract class LibUtils {
     public static Gson gson = new GsonBuilder()
 //            .enableComplexMapKeySerialization()
-            .registerTypeAdapter(ImageSize.class, new GsonAdapters.ImageSizeAdapter())
-//            .registerTypeAdapter(Product.class, new GsonAdapters.ProductAdapter())
-            .registerTypeAdapter(Response.class, new GsonAdapters.ResponseAdapter())
-            .registerTypeAdapterFactory(new GsonAdapters.VariantAdapterFactory())
-            .registerTypeAdapterFactory(new GsonAdapters.ProductAdapterFactory())
+
+            .registerTypeAdapter(Date.class, new GsonAdapters.DateSerializer())
+            .registerTypeAdapter(Response.class, new GsonAdapters.ResponseDeserializer())
+            .registerTypeAdapter(ImageSize.class, new GsonAdapters.ImageSizeSearializer())
+
+            .registerTypeAdapterFactory(new GsonAdapters.ItemAdapterFactory())
             .registerTypeAdapterFactory(new GsonAdapters.FileAdapterFactory())
+            .registerTypeAdapterFactory(new GsonAdapters.OrderAdapterFactory())
+            .registerTypeAdapterFactory(new GsonAdapters.AddressAdapterFactory())
+            .registerTypeAdapterFactory(new GsonAdapters.ProductAdapterFactory())
+            .registerTypeAdapterFactory(new GsonAdapters.VariantAdapterFactory())
+            .registerTypeAdapterFactory(new GsonAdapters.ShipmentAdapterFactory())
+            .registerTypeAdapterFactory(new GsonAdapters.ProductVariantAdapterFactory())
             .create();
 
     /**
@@ -47,7 +55,8 @@ public abstract class LibUtils {
                 .header("Connection", "keep-alive")
                 .header("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36")
                 .header("Content-type", "application/json")
-                .ignoreContentType(true).header("Authorization", "Basic " + base64Key);
+                .header("Authorization", "Basic " + base64Key)
+                .ignoreHttpErrors(true).ignoreContentType(true);
     }
 
     /**
@@ -84,7 +93,6 @@ public abstract class LibUtils {
      * @see #convertToCamelCase(String)
      */
     public static String convertToPhpStyle(final String s) {
-        System.out.println("convertToPhpStyle(" + s + ") called.");
         int u = checkUpperCase(s);
         if (u == -1) {
             return s;
@@ -107,7 +115,6 @@ public abstract class LibUtils {
      * @see #convertToPhpStyle(String)
      */
     public static String convertToCamelCase(String s) {
-        System.out.println("convertToCamelCase(" + s + ") called.");
         if (s.contains("_")) {
             String[] parts = s.split("_");
             for (int i = 1; i < parts.length; i++) {

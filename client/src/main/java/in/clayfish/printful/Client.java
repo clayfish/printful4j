@@ -23,23 +23,6 @@ import in.clayfish.printful.models.info.WebhookInfo;
  */
 public interface Client {
 
-//    /**
-//     * @param apiKey
-//     * @return
-//     */
-//    static Client getClient(String apiKey) {
-//        return new CompositeClient(apiKey);
-//    }
-//
-//    /**
-//     * @param apiKey
-//     * @param configuration
-//     * @return
-//     */
-//    static Client getClient(String apiKey, Configuration configuration) {
-//        return new CompositeClient(apiKey, configuration);
-//    }
-
     /**
      * @return All the products as returned from {@code GET /orders}
      */
