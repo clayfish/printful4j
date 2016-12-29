@@ -1,11 +1,19 @@
 package in.clayfish.printful.clients;
 
+import com.google.gson.reflect.TypeToken;
+
 import org.apache.commons.codec.binary.Base64;
+import org.jsoup.Connection;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
 
 import in.clayfish.printful.SimpleClient;
 import in.clayfish.printful.models.Configuration;
 import in.clayfish.printful.models.PackingSlip;
+import in.clayfish.printful.models.Response;
 import in.clayfish.printful.models.StoreData;
+import in.clayfish.printful.utils.LibUtils;
 
 /**
  * See https://www.theprintful.com/docs/store
@@ -36,13 +44,44 @@ public class StoreInfoApiClient extends SimpleClient {
     }
 
     @Override
-    public StoreData getStoreInfo() {
-        return super.getStoreInfo();
+    public Response<StoreData> getStoreInfo() {
+        try {
+            String response = LibUtils.createConnection(base64Key, "store", configuration).execute().body();
+            Type type = new TypeToken<Response<StoreData>>() {
+            }.getType();
+            return LibUtils.gson.fromJson(response, type);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
-    public PackingSlip changeStorePackingSlip(PackingSlip packingSlip) {
-        return super.changeStorePackingSlip(packingSlip);
+    public Response<PackingSlip> changeStorePackingSlip(PackingSlip packingSlip) {
+        // These fields are required
+        if (packingSlip.getEmail() == null) {
+            packingSlip.setEmail("");
+        }
+
+        if (packingSlip.getPhone() == null) {
+            packingSlip.setPhone("");
+        }
+
+        if (packingSlip.getMessage() == null) {
+            packingSlip.setMessage("");
+        }
+
+        try {
+            String response = LibUtils.createConnection(base64Key, "store/packing-slip", configuration)
+                    .method(Connection.Method.POST).requestBody(LibUtils.gson.toJson(packingSlip))
+                    .execute().body();
+            Type type = new TypeToken<Response<PackingSlip>>() {
+            }.getType();
+            return LibUtils.gson.fromJson(response, type);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

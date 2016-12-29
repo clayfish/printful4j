@@ -223,7 +223,7 @@ public interface Client {
      *
      * @return Store information
      */
-    StoreData getStoreInfo();
+    Response<StoreData> getStoreInfo();
 
     /**
      * Modifies packing slip information of the currently authorized Printful store.
@@ -231,5 +231,5 @@ public interface Client {
      * @param packingSlip packing slip data
      * @return Packing slip data
      */
-    PackingSlip changeStorePackingSlip(PackingSlip packingSlip);
+    Response<PackingSlip> changeStorePackingSlip(PackingSlip packingSlip);
 }

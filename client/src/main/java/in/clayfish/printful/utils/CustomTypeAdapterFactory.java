@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Taken from http://stackoverflow.com/questions/11271375/gson-custom-seralizer-for-one-variable-of-many-in-an-object-using-typeadapter
+ *
  * @author shuklaalok7
  * @since 29/12/2016
  */
@@ -100,6 +102,10 @@ class CustomTypeAdapterFactory<C> implements TypeAdapterFactory {
      * @param json
      */
     protected void beforeToObject(JsonElement json) {
+        if (json == null || json.isJsonNull()) {
+            return;
+        }
+
         JsonObject jsonObject = json.getAsJsonObject();
         Map<String, String> newFieldOldFieldMap = new HashMap<>();
         for (Map.Entry<String, JsonElement> entry : jsonObject.entrySet()) {

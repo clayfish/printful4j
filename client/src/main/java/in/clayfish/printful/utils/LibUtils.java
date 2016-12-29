@@ -37,6 +37,8 @@ public abstract class LibUtils {
             .registerTypeAdapterFactory(new GsonAdapters.ProductAdapterFactory())
             .registerTypeAdapterFactory(new GsonAdapters.VariantAdapterFactory())
             .registerTypeAdapterFactory(new GsonAdapters.ShipmentAdapterFactory())
+            .registerTypeAdapterFactory(new GsonAdapters.StoreDataAdapterFactory())
+            .registerTypeAdapterFactory(new GsonAdapters.PackingSlipAdapterFactory())
             .registerTypeAdapterFactory(new GsonAdapters.ProductVariantAdapterFactory())
             .create();
 

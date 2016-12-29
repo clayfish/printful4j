@@ -21,13 +21,14 @@ import in.clayfish.printful.enums.OrderStatus;
 import in.clayfish.printful.enums.ProductType;
 import in.clayfish.printful.models.File;
 import in.clayfish.printful.models.Order;
+import in.clayfish.printful.models.PackingSlip;
 import in.clayfish.printful.models.Product;
 import in.clayfish.printful.models.Response;
+import in.clayfish.printful.models.StoreData;
 import in.clayfish.printful.models.Variant;
 import in.clayfish.printful.models.includable.Address;
 import in.clayfish.printful.models.includable.ImageSize;
 import in.clayfish.printful.models.includable.Item;
-import in.clayfish.printful.models.includable.OptionType;
 import in.clayfish.printful.models.includable.Paging;
 import in.clayfish.printful.models.includable.ProductVariant;
 import in.clayfish.printful.models.includable.Shipment;
@@ -49,7 +50,7 @@ abstract class GsonAdapters {
             if (json == null || json.isJsonNull()) {
                 return null;
             }
-            return new Date(json.getAsLong());
+            return new Date(json.getAsLong() * 1000);
         }
 
         @Override
@@ -85,6 +86,18 @@ abstract class GsonAdapters {
     static class VariantAdapterFactory extends CustomTypeAdapterFactory<Variant> {
         VariantAdapterFactory() {
             super(Variant.class);
+        }
+    }
+
+    /**
+     * It tweaks the fields of the model
+     *
+     * @author shuklaalok7
+     * @since 29/12/2016
+     */
+    static class StoreDataAdapterFactory extends CustomTypeAdapterFactory<StoreData> {
+        StoreDataAdapterFactory() {
+            super(StoreData.class);
         }
     }
 
@@ -130,6 +143,35 @@ abstract class GsonAdapters {
      * @author shuklaalok7
      * @since 29/12/2016
      */
+    static class PackingSlipAdapterFactory extends CustomTypeAdapterFactory<PackingSlip> {
+        PackingSlipAdapterFactory() {
+            super(PackingSlip.class);
+        }
+
+        @Override
+        protected void beforeToObject(JsonElement json) {
+            super.beforeToObject(json);
+
+            if (json != null && !json.isJsonNull()) {
+                JsonObject jsonObject = json.getAsJsonObject();
+                if (jsonObject.has("packingSlip")) {
+                    JsonObject packingSlip = LibUtils.getFromJson(jsonObject, "packingSlip", JsonObject.class);
+                    jsonObject.remove("packingSlip");
+
+                    jsonObject.addProperty("email", LibUtils.getFromJson(packingSlip, "email", String.class));
+                    jsonObject.addProperty("phone", LibUtils.getFromJson(packingSlip, "phone", String.class));
+                    jsonObject.addProperty("message", LibUtils.getFromJson(packingSlip, "message", String.class));
+                }
+            }
+        }
+    }
+
+    /**
+     * It tweaks the fields of the model
+     *
+     * @author shuklaalok7
+     * @since 29/12/2016
+     */
     static class OrderAdapterFactory extends CustomTypeAdapterFactory<Order> {
         OrderAdapterFactory() {
             super(Order.class);
@@ -166,6 +208,10 @@ abstract class GsonAdapters {
         @Override
         protected void beforeToObject(JsonElement json) {
             super.beforeToObject(json);
+
+            if (json == null || json.isJsonNull()) {
+                return;
+            }
 
             JsonObject jsonObject = json.getAsJsonObject();
             JsonObject stateObject = new JsonObject();
@@ -288,120 +334,6 @@ abstract class GsonAdapters {
             }
 
             return response;
-        }
-    }
-
-    /**
-     * @author shuklaalok7
-     * @since 29/12/2016
-     */
-    static class ProductAdapter implements JsonDeserializer<Product>, JsonSerializer<Product> {
-
-        @Override
-        public Product deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-                throws JsonParseException {
-            if (json == null) {
-                return null;
-            }
-
-            Product product = new Product();
-            final JsonObject jsonObject = json.getAsJsonObject();
-
-            if (jsonObject.has("id")) {
-                try {
-                    long id = jsonObject.get("id").getAsLong();
-                    product.setId(id);
-                } catch (Exception ignored) {
-                    // It may be a string id, leave it
-                }
-            }
-
-            if (jsonObject.has("type")) {
-                product.setType(ProductType.find(jsonObject.get("type").getAsString()));
-            }
-
-            product.setBrand(LibUtils.getFromJson(jsonObject, "brand", String.class));
-
-            if (jsonObject.has("model")) {
-                product.setModel(jsonObject.get("model").getAsString());
-            }
-
-            if (jsonObject.has("image")) {
-                product.setImage(jsonObject.get("image").getAsString());
-            }
-
-            if (jsonObject.has("variant_code")) {
-                product.setVariantCount(jsonObject.get("variant_code").getAsInt());
-            }
-
-            if (jsonObject.has("allowed_files") && jsonObject.get("allowed_files").isJsonArray()) {
-                List<File> files = new ArrayList<>();
-                JsonArray filesArray = jsonObject.get("allowed_files").getAsJsonArray();
-
-                for (JsonElement element : filesArray) {
-                    files.add(context.deserialize(element, File.class));
-                }
-                product.setFiles(files);
-            }
-
-            if (jsonObject.has("allowed_options") && jsonObject.get("allowed_options").isJsonArray()) {
-                List<OptionType> optionTypes = new ArrayList<>();
-                JsonArray optionsArray = jsonObject.get("allowed_options").getAsJsonArray();
-
-                for (JsonElement element : optionsArray) {
-                    optionTypes.add(context.deserialize(element, OptionType.class));
-                }
-                product.setAllowedOptions(optionTypes);
-            }
-
-            return product;
-        }
-
-        @Override
-        public JsonElement serialize(Product product, Type typeOfSrc, JsonSerializationContext context) {
-            JsonObject json = new JsonObject();
-
-            if (product.getId() > 0) {
-                json.addProperty("id", product.getId());
-            }
-
-            if (product.getType() != null) {
-                json.addProperty("type", product.getType().name().replace("_", "-"));
-            }
-
-            if (product.getBrand() != null) {
-                json.addProperty("brand", product.getBrand());
-            }
-
-            if (product.getModel() != null) {
-                json.addProperty("model", product.getModel());
-            }
-
-            if (product.getImage() != null) {
-                json.addProperty("image", product.getImage());
-            }
-
-            if (product.getVariantCount() > 0) {
-                json.addProperty("variant_count", product.getVariantCount());
-            }
-
-            if (product.getFiles() != null) {
-                JsonArray filesArray = new JsonArray();
-                for (File file : product.getFiles()) {
-                    filesArray.add(context.serialize(file));
-                }
-                json.add("allowed_files", filesArray);
-            }
-
-            if (product.getAllowedOptions() != null) {
-                JsonArray optionsArray = new JsonArray();
-                for (OptionType optionType : product.getAllowedOptions()) {
-                    optionsArray.add(context.serialize(optionType));
-                }
-                json.add("allowed_options", optionsArray);
-            }
-
-            return json;
         }
     }
 

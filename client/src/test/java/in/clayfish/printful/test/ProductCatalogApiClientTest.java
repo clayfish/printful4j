@@ -46,10 +46,10 @@ public class ProductCatalogApiClientTest {
         List<VariantInfo> variantInfoList = client.getInformationAboutVariant(1).getResult();
         Assert.assertTrue(variantInfoList != null && !variantInfoList.isEmpty());
 
-        for (VariantInfo variantInfo : variantInfoList) {
-            System.out.println(String.format(Locale.ENGLISH, "%d: %s %s (totalVariants=%d)",
-                    variantInfo.getProduct().getId()));
-        }
+//        for (VariantInfo variantInfo : variantInfoList) {
+//            System.out.println(String.format(Locale.ENGLISH, "%d: %s %s (totalVariants=%d)",
+//                    variantInfo.getProduct().getId(), variantInfo.));
+//        }
     }
 
     @Test

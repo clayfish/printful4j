@@ -183,12 +183,12 @@ public class CompositeClient implements Client {
     }
 
     @Override
-    public StoreData getStoreInfo() {
+    public Response<StoreData> getStoreInfo() {
         return storeInfoApiClient.getStoreInfo();
     }
 
     @Override
-    public PackingSlip changeStorePackingSlip(PackingSlip packingSlip) {
+    public Response<PackingSlip> changeStorePackingSlip(PackingSlip packingSlip) {
         return storeInfoApiClient.changeStorePackingSlip(packingSlip);
     }
 

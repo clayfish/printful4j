@@ -139,12 +139,12 @@ public abstract class SimpleClient implements Client {
     }
 
     @Override
-    public StoreData getStoreInfo() {
+    public Response<StoreData> getStoreInfo() {
         throw new NotImplementedException();
     }
 
     @Override
-    public PackingSlip changeStorePackingSlip(PackingSlip packingSlip) {
+    public Response<PackingSlip> changeStorePackingSlip(PackingSlip packingSlip) {
         throw new NotImplementedException();
     }
 }
