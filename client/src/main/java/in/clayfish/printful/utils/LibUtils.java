@@ -36,11 +36,13 @@ public abstract class LibUtils {
             .registerTypeAdapterFactory(new GsonAdapters.AddressAdapterFactory())
             .registerTypeAdapterFactory(new GsonAdapters.ProductAdapterFactory())
             .registerTypeAdapterFactory(new GsonAdapters.VariantAdapterFactory())
+            .registerTypeAdapterFactory(new GsonAdapters.TaxInfoAdapterFactory())
             .registerTypeAdapterFactory(new GsonAdapters.ShipmentAdapterFactory())
             .registerTypeAdapterFactory(new GsonAdapters.ItemInfoAdapterFactory())
             .registerTypeAdapterFactory(new GsonAdapters.StoreDataAdapterFactory())
             .registerTypeAdapterFactory(new GsonAdapters.PackingSlipAdapterFactory())
             .registerTypeAdapterFactory(new GsonAdapters.AddressInfoAdapterFactory())
+            .registerTypeAdapterFactory(new GsonAdapters.TaxAddressInfoAdapterFactory())
             .registerTypeAdapterFactory(new GsonAdapters.ProductVariantAdapterFactory())
             .create();
 

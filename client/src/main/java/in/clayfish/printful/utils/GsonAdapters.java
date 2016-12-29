@@ -34,6 +34,8 @@ import in.clayfish.printful.models.includable.ProductVariant;
 import in.clayfish.printful.models.includable.Shipment;
 import in.clayfish.printful.models.info.AddressInfo;
 import in.clayfish.printful.models.info.ItemInfo;
+import in.clayfish.printful.models.info.TaxAddressInfo;
+import in.clayfish.printful.models.info.TaxInfo;
 
 /**
  * @author shuklaalok7
@@ -148,6 +150,30 @@ abstract class GsonAdapters {
     static class AddressInfoAdapterFactory extends CustomTypeAdapterFactory<AddressInfo> {
         AddressInfoAdapterFactory() {
             super(AddressInfo.class);
+        }
+    }
+
+    /**
+     * It tweaks the fields of the model
+     *
+     * @author shuklaalok7
+     * @since 29/12/2016
+     */
+    static class TaxAddressInfoAdapterFactory extends CustomTypeAdapterFactory<TaxAddressInfo> {
+        TaxAddressInfoAdapterFactory() {
+            super(TaxAddressInfo.class);
+        }
+    }
+
+    /**
+     * It tweaks the fields of the model
+     *
+     * @author shuklaalok7
+     * @since 29/12/2016
+     */
+    static class TaxInfoAdapterFactory extends CustomTypeAdapterFactory<TaxInfo> {
+        TaxInfoAdapterFactory() {
+            super(TaxInfo.class);
         }
     }
 
