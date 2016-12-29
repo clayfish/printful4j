@@ -1,12 +1,19 @@
 package in.clayfish.printful.clients;
 
+import com.google.gson.reflect.TypeToken;
+
 import org.apache.commons.codec.binary.Base64;
+import org.jsoup.Connection;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
 
 import in.clayfish.printful.SimpleClient;
 import in.clayfish.printful.models.Configuration;
 import in.clayfish.printful.models.Response;
 import in.clayfish.printful.models.ShippingRequest;
 import in.clayfish.printful.models.info.ShippingInfo;
+import in.clayfish.printful.utils.LibUtils;
 
 /**
  * See https://www.theprintful.com/docs/shipping
@@ -38,7 +45,20 @@ public class ShippingRateApiClient extends SimpleClient {
 
     @Override
     public Response<ShippingInfo> calculateShippingRates(ShippingRequest request) {
-        return super.calculateShippingRates(request);
+        try {
+            String response = LibUtils.createConnection(base64Key, "shipping/rates", configuration)
+                    .method(Connection.Method.POST)
+                    .requestBody(LibUtils.gson.toJson(request))
+                    .execute().body();
+
+            Type type = new TypeToken<Response<ShippingInfo>>() {
+            }.getType();
+            return LibUtils.gson.fromJson(response, type);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
 }

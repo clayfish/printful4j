@@ -73,7 +73,7 @@ There is one interface `Client` to use all the [printful API](https://www.thepri
 First create a variable to keep your client,
 
 ``` java
-Client printfulClient = new CompositeClient("YOUR API KEY");
+Client printfulClient = new CompositeClient("YOUR_API_KEY");
 ```
 
 `CompositeClient` uses multiple specific clients to serve full API, if you want to use a specific

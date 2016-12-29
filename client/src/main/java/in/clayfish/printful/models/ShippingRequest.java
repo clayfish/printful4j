@@ -1,9 +1,5 @@
 package in.clayfish.printful.models;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONStringer;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -31,13 +27,6 @@ public class ShippingRequest implements Serializable {
      */
     private String currency;
 
-    public ShippingRequest() {
-    }
-
-    public ShippingRequest(JSONObject json) {
-        // TODO implement
-    }
-
     public AddressInfo getRecipient() {
         return recipient;
     }
@@ -62,21 +51,4 @@ public class ShippingRequest implements Serializable {
         this.currency = currency;
     }
 
-    @Override
-    public String toString() {
-        JSONStringer stringer = new JSONStringer();
-
-        try {
-            stringer.object();
-
-            // TODO implement
-
-            stringer.endObject();
-            return stringer.toString();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return "";
-    }
 }
