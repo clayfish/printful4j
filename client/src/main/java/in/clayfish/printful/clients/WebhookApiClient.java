@@ -1,11 +1,18 @@
 package in.clayfish.printful.clients;
 
+import com.google.gson.reflect.TypeToken;
+
 import org.apache.commons.codec.binary.Base64;
+import org.jsoup.Connection;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
 
 import in.clayfish.printful.SimpleClient;
 import in.clayfish.printful.models.Configuration;
 import in.clayfish.printful.models.Response;
 import in.clayfish.printful.models.info.WebhookInfo;
+import in.clayfish.printful.utils.LibUtils;
 
 /**
  * See https://www.theprintful.com/docs/webhooks
@@ -20,15 +27,15 @@ public class WebhookApiClient extends SimpleClient {
     private Configuration configuration;
 
     /**
-     * @param apiKey
+     * @param apiKey Your API key
      */
     public WebhookApiClient(String apiKey) {
         this(apiKey, new Configuration());
     }
 
     /**
-     * @param apiKey
-     * @param configuration
+     * @param apiKey        YOUR_API_KEY
+     * @param configuration Configuration object
      */
     public WebhookApiClient(String apiKey, Configuration configuration) {
         this.base64Key = Base64.encodeBase64String(apiKey.getBytes());
@@ -37,17 +44,49 @@ public class WebhookApiClient extends SimpleClient {
 
     @Override
     public Response<WebhookInfo> getWebhookConfig() {
-        return super.getWebhookConfig();
+        try {
+            String response = LibUtils.createConnection(base64Key, "webhooks", configuration).execute().body();
+            // TODO inspect response to fix WebhookInfo model
+            return createWebhookInfo(response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
     public Response<WebhookInfo> setupWebhookConfig(WebhookInfo webhookInfo) {
-        return super.setupWebhookConfig(webhookInfo);
+        try {
+            String response = LibUtils.createConnection(base64Key, "webhooks", configuration)
+                    .method(Connection.Method.POST).requestBody(LibUtils.gson.toJson(webhookInfo))
+                    .execute().body();
+            return createWebhookInfo(response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
     public Response<WebhookInfo> disableWebhookSupport() {
-        return super.disableWebhookSupport();
+        try {
+            String response = LibUtils.createConnection(base64Key, "webhooks", configuration)
+                    .method(Connection.Method.DELETE).execute().body();
+            return createWebhookInfo(response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * @param response obtained string from API
+     * @return response object
+     */
+    private Response<WebhookInfo> createWebhookInfo(String response) {
+        Type type = new TypeToken<Response<WebhookInfo>>() {
+        }.getType();
+        return LibUtils.gson.fromJson(response, type);
     }
 
 }
