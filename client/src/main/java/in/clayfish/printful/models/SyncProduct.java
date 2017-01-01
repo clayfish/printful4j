@@ -4,11 +4,7 @@ package in.clayfish.printful.models;
  * @author shuklaalok7
  * @since 29/12/2016
  */
-public class SyncProduct {
-    /**
-     * Sync Product ID
-     */
-    private int id;
+public class SyncProduct extends Entity {
 
     /**
      * Product ID from the E-commerce platform
@@ -29,14 +25,6 @@ public class SyncProduct {
      * Number of synced Sync Variants belonging to this product
      */
     private int synced;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getExternalId() {
         return externalId;

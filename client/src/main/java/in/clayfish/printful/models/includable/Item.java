@@ -1,5 +1,7 @@
 package in.clayfish.printful.models.includable;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import in.clayfish.printful.models.Entity;
@@ -140,4 +142,89 @@ public class Item extends Entity {
     public void setSku(String sku) {
         this.sku = sku;
     }
+
+    /**
+     * @author shuklaalok7
+     * @since 2/01/2017
+     */
+    public static class Builder {
+        private Item item;
+        private boolean checkValidity;
+
+        public Builder() {
+            this.item = new Item();
+            this.item.quantity = 1;
+        }
+
+        public Builder check() {
+            this.checkValidity = true;
+            return this;
+        }
+
+//        public Builder id(long id) {
+//            this.item.setId(id);
+//            return this;
+//        }
+
+        public Builder externalId(String externalId) {
+            this.item.externalId = externalId;
+            return this;
+        }
+
+        public Builder variantId(int variantId) {
+            this.item.variantId = variantId;
+            return this;
+        }
+
+        public Builder retailPrice(String retailPrice) {
+            this.item.retailPrice = retailPrice;
+            return this;
+        }
+
+        public Builder quantity(int quantity) {
+            this.item.quantity = quantity;
+            return this;
+        }
+
+        public Builder name(String name) {
+            this.item.name = name;
+            return this;
+        }
+
+        public Builder sku(String sku) {
+            this.item.sku = sku;
+            return this;
+        }
+
+        public Builder file(File file) {
+            if (this.item.files == null) {
+                this.item.files = new ArrayList<>();
+            }
+            this.item.files.add(file);
+            return this;
+        }
+
+        public Builder files(Collection<File> files) {
+            if (this.item.files == null) {
+                this.item.files = new ArrayList<>();
+            }
+            this.item.files.addAll(files);
+            return this;
+        }
+
+        public Item build() {
+            if (checkValidity) {
+                checkValidity();
+            }
+            return item;
+        }
+
+        /**
+         *
+         */
+        private void checkValidity() {
+            // TODO Implement
+        }
+    }
+
 }

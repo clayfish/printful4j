@@ -1,5 +1,7 @@
 package in.clayfish.printful.models.includable;
 
+import in.clayfish.printful.exceptions.ValidationFailedException;
+
 /**
  * @author shuklaalok7
  * @since 24/12/2016
@@ -111,4 +113,93 @@ public class Address {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    /**
+     * @author shuklaalok7
+     * @since 2/01/2017
+     */
+    public static class Builder {
+        private Address address;
+        private boolean checkValidity;
+
+        public Builder() {
+            this.address = new Address();
+        }
+
+        public Builder check() {
+            this.checkValidity = true;
+            return this;
+        }
+
+        public Builder name(String name) {
+            this.address.name = name;
+            return this;
+        }
+
+        public Builder address1(String address1) {
+            this.address.address1 = address1;
+            return this;
+        }
+
+        public Builder address2(String address2) {
+            this.address.address2 = address2;
+            return this;
+        }
+
+        public Builder city(String city) {
+            this.address.city = city;
+            return this;
+        }
+
+        public Builder state(State state) {
+            this.address.state = state;
+            return this;
+        }
+
+        public Builder country(Country country) {
+            this.address.country = country;
+            return this;
+        }
+
+        public Builder zip(String zip) {
+            this.address.zip = zip;
+            return this;
+        }
+
+        public Builder email(String email) {
+            this.address.email = email;
+            return this;
+        }
+
+        public Builder phone(String phone) {
+            this.address.phone = phone;
+            return this;
+        }
+
+        public Builder company(String company) {
+            this.address.company = company;
+            return this;
+        }
+
+        public Address build() {
+            if (checkValidity) {
+                checkValidity();
+            }
+            return this.address;
+        }
+
+        private void checkValidity() {
+            if (this.address.country == null || this.address.country.getCode() == null || this.address.country.getCode().isEmpty()
+                    || this.address.state == null || this.address.state.getCode() == null || this.address.state.getCode().isEmpty()
+                    || this.address.name == null || !this.address.name.isEmpty()
+                    || this.address.city == null || !this.address.city.isEmpty()
+                    || this.address.address1 == null || !this.address.address1.isEmpty()
+                    || this.address.zip == null || !this.address.zip.isEmpty()) {
+                throw new ValidationFailedException();
+            }
+        }
+
+
+    }
+
 }

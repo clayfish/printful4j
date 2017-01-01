@@ -20,6 +20,9 @@ public enum FileStatus {
      */
     FAIL;
 
+    public static FileStatus find(String searchTerm) {
+        return FileStatus.valueOf(searchTerm.trim().toUpperCase());
+    }
 
     @Override
     public String toString() {

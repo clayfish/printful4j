@@ -1,10 +1,12 @@
 package in.clayfish.printful.models;
 
+import java.io.Serializable;
+
 /**
  * @author shuklaalok7
  * @since 24/12/2016
  */
-public class PackingSlip {
+public class PackingSlip implements Serializable {
 
     /**
      * Customer service email

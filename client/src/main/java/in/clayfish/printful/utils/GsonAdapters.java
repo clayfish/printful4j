@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import in.clayfish.printful.enums.FileStatus;
 import in.clayfish.printful.enums.OrderStatus;
 import in.clayfish.printful.enums.ProductType;
 import in.clayfish.printful.models.File;
@@ -58,7 +59,7 @@ abstract class GsonAdapters {
      * @author shuklaalok7
      * @since 29/12/2016
      */
-    static class ImageSizeSearializer implements JsonDeserializer<ImageSize>, JsonSerializer<ImageSize> {
+    static class ImageSizeSerializer implements JsonDeserializer<ImageSize>, JsonSerializer<ImageSize> {
 
         @Override
         public ImageSize deserialize(JsonElement jsonElement, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -116,7 +117,9 @@ abstract class GsonAdapters {
         protected void beforeToJson(Order source, JsonElement json) {
             super.beforeToJson(source, json);
 
-            json.getAsJsonObject().addProperty("status", source.getStatus().toString());
+            if (source.getStatus() != null) {
+                json.getAsJsonObject().addProperty("status", source.getStatus().toString());
+            }
         }
 
         @Override
@@ -124,8 +127,10 @@ abstract class GsonAdapters {
             super.beforeToObject(json);
 
             JsonObject jsonObject = json.getAsJsonObject();
-            OrderStatus orderStatus = OrderStatus.find(jsonObject.get("status").getAsString());
-            jsonObject.addProperty("status", orderStatus.name());
+            OrderStatus orderStatus = OrderStatus.find(LibUtils.getFromJson(jsonObject, "status", String.class));
+            if (orderStatus != null) {
+                jsonObject.addProperty("status", orderStatus.name());
+            }
         }
     }
 
@@ -152,14 +157,36 @@ abstract class GsonAdapters {
             JsonObject stateObject = new JsonObject();
             JsonObject countryObject = new JsonObject();
 
-            stateObject.addProperty("code", jsonObject.get("stateCode").getAsString());
-            stateObject.addProperty("name", jsonObject.get("stateName").getAsString());
+            stateObject.addProperty("code", LibUtils.getFromJson(jsonObject, "stateCode", String.class));
+            stateObject.addProperty("name", LibUtils.getFromJson(jsonObject, "stateName", String.class));
 
-            countryObject.addProperty("code", jsonObject.get("countryCode").getAsString());
-            countryObject.addProperty("name", jsonObject.get("countryName").getAsString());
+            countryObject.addProperty("code", LibUtils.getFromJson(jsonObject, "countryCode", String.class));
+            countryObject.addProperty("name", LibUtils.getFromJson(jsonObject, "countryName", String.class));
 
             jsonObject.add("state", stateObject);
             jsonObject.add("country", countryObject);
+        }
+
+        @Override
+        protected void beforeToJson(Address source, JsonElement json) {
+            super.beforeToJson(source, json);
+
+            if (json == null || source == null) {
+                return;
+            }
+
+            JsonObject jsonObject = json.getAsJsonObject();
+
+            if (source.getState() != null) {
+                jsonObject.remove("state");
+                jsonObject.addProperty("state_code", source.getState().getCode());
+                jsonObject.addProperty("state_name", source.getState().getName());
+            }
+            if (source.getCountry() != null) {
+                jsonObject.remove("country");
+                jsonObject.addProperty("country_code", source.getCountry().getCode());
+                jsonObject.addProperty("country_name", source.getCountry().getName());
+            }
         }
     }
 
@@ -178,15 +205,20 @@ abstract class GsonAdapters {
         protected void beforeToJson(Product source, JsonElement json) {
             super.beforeToJson(source, json);
 
-            json.getAsJsonObject().addProperty("type", source.getType().toString());
+            if (source.getType() != null) {
+                json.getAsJsonObject().addProperty("type", source.getType().toString());
+            }
         }
 
         @Override
         protected void beforeToObject(JsonElement json) {
             super.beforeToObject(json);
             JsonObject jsonObject = json.getAsJsonObject();
-            ProductType type = ProductType.find(jsonObject.get("type").getAsString());
-            jsonObject.addProperty("type", type.name());
+
+            ProductType productType = ProductType.find(LibUtils.getFromJson(jsonObject, "type", String.class));
+            if (productType != null) {
+                jsonObject.addProperty("status", productType.name());
+            }
         }
     }
 
@@ -208,6 +240,10 @@ abstract class GsonAdapters {
             JsonObject jsonObject = json.getAsJsonObject();
             jsonObject.remove("string_id");
             jsonObject.addProperty("id", source.getStringId());
+
+            if (source.getStatus() != null) {
+                jsonObject.addProperty("status", source.getStatus().toString());
+            }
         }
 
         @Override
@@ -217,6 +253,10 @@ abstract class GsonAdapters {
             JsonObject jsonObject = json.getAsJsonObject();
             jsonObject.addProperty("stringId", jsonObject.get("id").getAsString());
             jsonObject.remove("id");
+            FileStatus fileStatus = FileStatus.find(LibUtils.getFromJson(jsonObject, "status", String.class));
+            if (fileStatus != null) {
+                jsonObject.addProperty("status", fileStatus.name());
+            }
         }
     }
 

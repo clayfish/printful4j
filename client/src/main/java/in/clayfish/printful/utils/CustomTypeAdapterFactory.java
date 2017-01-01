@@ -67,6 +67,9 @@ class CustomTypeAdapterFactory<C> implements TypeAdapterFactory {
      * @param json
      */
     protected void beforeToJson(C source, JsonElement json) {
+        if (json == null || source == null) {
+            return;
+        }
         JsonObject jsonObject = json.getAsJsonObject();
         for (Field field : source.getClass().getDeclaredFields()) {
             field.setAccessible(true);
@@ -77,7 +80,15 @@ class CustomTypeAdapterFactory<C> implements TypeAdapterFactory {
                 try {
                     Class<?> type = field.getType();
 
-                    if (String.class.isAssignableFrom(type)) {
+                    if (type.isPrimitive()) {
+                        if (boolean.class.isAssignableFrom(type)) {
+                            jsonObject.addProperty(newFieldName, (Boolean) field.get(source));
+                        } else if (boolean.class.isAssignableFrom(type)) {
+                            jsonObject.addProperty(newFieldName, (Character) field.get(source));
+                        } else {
+                            jsonObject.addProperty(newFieldName, (Number) field.get(source));
+                        }
+                    } else if (String.class.isAssignableFrom(type)) {
                         jsonObject.addProperty(newFieldName, (String) field.get(source));
                     } else if (Number.class.isAssignableFrom(type)) {
                         jsonObject.addProperty(newFieldName, (Number) field.get(source));
@@ -86,7 +97,7 @@ class CustomTypeAdapterFactory<C> implements TypeAdapterFactory {
                     } else if (Boolean.class.isAssignableFrom(type)) {
                         jsonObject.addProperty(newFieldName, (Boolean) field.get(source));
                     } else {
-                        throw new IllegalArgumentException("Cannot serialize it, please use a custom serializer.");
+                        jsonObject.add(newFieldName, jsonObject.get(oldFieldName));
                     }
                     jsonObject.remove(oldFieldName);
                 } catch (IllegalAccessException e) {

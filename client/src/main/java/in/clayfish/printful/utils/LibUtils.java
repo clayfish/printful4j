@@ -41,7 +41,7 @@ public abstract class LibUtils {
 
             .registerTypeAdapter(Date.class, new GsonAdapters.DateSerializer())
             .registerTypeAdapter(Response.class, new GsonAdapters.ResponseDeserializer())
-            .registerTypeAdapter(ImageSize.class, new GsonAdapters.ImageSizeSearializer())
+            .registerTypeAdapter(ImageSize.class, new GsonAdapters.ImageSizeSerializer())
 
             .registerTypeAdapterFactory(new GsonAdapters.FileAdapterFactory())
             .registerTypeAdapterFactory(new GsonAdapters.OrderAdapterFactory())
@@ -65,10 +65,10 @@ public abstract class LibUtils {
             .create();
 
     /**
-     * @param base64Key
-     * @param uri
-     * @param config
-     * @return
+     * @param base64Key The Base64 encoded API key
+     * @param uri       URI to connect
+     * @param config    Configuration object
+     * @return A Connection object
      */
     public static Connection createConnection(final String base64Key, final String uri,
                                               final Configuration config) {
@@ -97,7 +97,7 @@ public abstract class LibUtils {
     }
 
     /**
-     * @param s
+     * @param s The string to check
      * @return The index of first UPPERCASE character or -1
      */
     public static int checkUpperCase(String s) {
@@ -155,11 +155,11 @@ public abstract class LibUtils {
     }
 
     /**
-     * @param jsonObject
-     * @param key
-     * @param tClass
-     * @param <T>
-     * @return
+     * @param jsonObject JsonObject from which the field is to get
+     * @param key        The key to find in the given jsonObject
+     * @param tClass     class of the found value
+     * @param <T>        class parameter
+     * @return Found object type-casted to tClass
      */
     public static <T> T getFromJson(JsonObject jsonObject, String key, Class<? extends T> tClass) {
         if (jsonObject.has(key)) {

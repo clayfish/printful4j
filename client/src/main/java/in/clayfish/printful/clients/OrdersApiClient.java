@@ -84,9 +84,9 @@ public class OrdersApiClient extends SimpleClient {
 
         try {
             String response = LibUtils.createConnection(base64Key, "orders", configuration)
-                    .method(Connection.Method.POST).requestBody(order.toString()).data("confirm",
-                            String.valueOf(confirm), "updateExisting",
-                            String.valueOf(updateExisting))
+                    .method(Connection.Method.POST).requestBody(LibUtils.gson.toJson(order))
+                    .data("confirm", String.valueOf(confirm),
+                            "updateExisting", String.valueOf(updateExisting))
                     .execute().body();
 
             return createResponseFromApi(response);
@@ -155,7 +155,7 @@ public class OrdersApiClient extends SimpleClient {
         try {
             String response = LibUtils.createConnection(base64Key, "orders/" + orderId, configuration)
                     .method(Connection.Method.PUT)
-                    .requestBody(order.toString())
+                    .requestBody(LibUtils.gson.toJson(order))
                     .data("confirm", String.valueOf(confirm))
                     .execute().body();
             return createResponseFromApi(response);
@@ -171,7 +171,7 @@ public class OrdersApiClient extends SimpleClient {
         try {
             String response = LibUtils.createConnection(base64Key, "orders/" + externalId, configuration)
                     .method(Connection.Method.PUT)
-                    .requestBody(order.toString())
+                    .requestBody(LibUtils.gson.toJson(order))
                     .data("confirm", String.valueOf(confirm))
                     .execute().body();
             return createResponseFromApi(response);

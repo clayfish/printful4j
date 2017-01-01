@@ -1,18 +1,21 @@
 package in.clayfish.printful.test;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import in.clayfish.printful.Client;
 import in.clayfish.printful.clients.OrdersApiClient;
 import in.clayfish.printful.enums.OrderStatus;
+import in.clayfish.printful.models.File;
 import in.clayfish.printful.models.Order;
 import in.clayfish.printful.models.Response;
 import in.clayfish.printful.models.includable.Address;
+import in.clayfish.printful.models.includable.Country;
 import in.clayfish.printful.models.includable.Item;
+import in.clayfish.printful.models.includable.State;
 
 /**
  * @author shuklaalok7
@@ -35,24 +38,25 @@ public class OrdersApiClientTest {
 
     @Test
     public void createANewOrder() {
-        Order order = new Order();
-        List<Item> items = new ArrayList<>();
-        Item item1 = new Item();
-        Address recipient = new Address();
-        recipient.setName("John Doe");
-        recipient.setAddress1("21 Baker Street");
-        recipient.setCity("New York");
+        Address recipient = new Address.Builder().name("Googleplex")
+                .address1("1600 Amphitheatre Parkway").phone("+1 650-253-0000")
+                .city("Mountain View").zip("94043").state(new State("CA", "California"))
+                .country(new Country("US", "United States")).check().build();
 
-        item1.setPrice("76.95");
-        item1.setExternalId("231");
-        item1.setSku("TEST_ITEM");
-        items.add(item1);
+        File file1 = new File();
+        file1.setUrl("http://68.media.tumblr.com/tumblr_m99eygsfkn1qaoylwo1_1280.jpg");
 
-        order.setExternalId("12331");
-        order.setItems(items);
+        Item item1 = new Item.Builder().variantId(4).retailPrice("76.95").externalId("231")
+                .sku("TEST_ITEM").file(file1).check().build();
+
+        Order order = new Order.Builder().externalId("12331").recipient(recipient).item(item1)
+                .check().build();
+
         Response<Order> orderResponse = client.createANewOrder(order, false, false);
 
-        System.out.println(orderResponse);
+        Assert.assertTrue(orderResponse.getCode() == 200);
+
+        System.out.println(orderResponse.getCode() + ": " + orderResponse.getResult());
     }
 
     @Test

@@ -1,6 +1,5 @@
 package in.clayfish.printful.models;
 
-import java.io.Serializable;
 import java.util.List;
 
 import in.clayfish.printful.models.includable.ItemOption;
@@ -10,11 +9,7 @@ import in.clayfish.printful.models.includable.ProductVariant;
  * @author shuklaalok7
  * @since 29/12/2016
  */
-public class SyncVariant implements Serializable {
-    /**
-     * Sync Variant ID
-     */
-    private long id;
+public class SyncVariant extends Entity {
 
     /**
      * Variant ID from the E-commerce platform
@@ -54,14 +49,6 @@ public class SyncVariant implements Serializable {
      * Additional options for the configured product/variant
      */
     private List<ItemOption> options;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getExternalId() {
         return externalId;

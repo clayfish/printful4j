@@ -1,5 +1,7 @@
 package in.clayfish.printful.models;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -171,6 +173,131 @@ public class Order extends Entity {
 
     public void setPackingSlip(PackingSlip packingSlip) {
         this.packingSlip = packingSlip;
+    }
+
+    /**
+     * Builds an order
+     */
+    public static class Builder {
+        private Order order;
+        private boolean checkValidity;
+
+        public Builder() {
+            this.order = new Order();
+        }
+
+        /**
+         * @return Builder object
+         */
+        public Builder check() {
+            this.checkValidity = true;
+            return this;
+        }
+
+        /**
+         * @param id ID of the order
+         * @return Builder object
+         */
+        public Builder id(long id) {
+            this.order.setId(id);
+            return this;
+        }
+
+        /**
+         * @param externalId
+         * @return Builder object
+         */
+        public Builder externalId(String externalId) {
+            this.order.externalId = externalId;
+            return this;
+        }
+
+        /**
+         * @param recipient
+         * @return Builder object
+         */
+        public Builder recipient(Address recipient) {
+            this.order.recipient = recipient;
+            return this;
+        }
+
+        /**
+         * @param status
+         * @return Builder object
+         */
+        public Builder status(OrderStatus status) {
+            this.order.status = status;
+            return this;
+        }
+
+        /**
+         * @param costs
+         * @return Builder object
+         */
+        public Builder costs(Cost costs) {
+            this.order.costs = costs;
+            return this;
+        }
+
+        /**
+         * @param retailCosts
+         * @return Builder object
+         */
+        public Builder retailCosts(Cost retailCosts) {
+            this.order.retailCosts = retailCosts;
+            return this;
+        }
+
+        /**
+         * @param item Item to add in this order
+         * @return Builder object
+         */
+        public Builder item(Item item) {
+            if (order.items == null) {
+                order.items = new ArrayList<>();
+            }
+            order.items.add(item);
+            return this;
+        }
+
+        /**
+         * @param items Items to add in this order (it does not replace other items added before it)
+         * @return Builder object
+         */
+        public Builder items(Collection<Item> items) {
+            if (order.items == null) {
+                order.items = new ArrayList<>();
+            }
+            order.items.addAll(items);
+            return this;
+        }
+
+        /**
+         * @param gift GiftData to add
+         * @return Builder object
+         */
+        public Builder gift(GiftData gift) {
+            this.order.gift = gift;
+            return this;
+        }
+
+        /**
+         * @return
+         */
+        public Order build() {
+            if (checkValidity) {
+                checkValidity();
+            }
+            return order;
+        }
+
+        /**
+         *
+         */
+        private void checkValidity() {
+            // TODO implement
+        }
+
     }
 
 }
