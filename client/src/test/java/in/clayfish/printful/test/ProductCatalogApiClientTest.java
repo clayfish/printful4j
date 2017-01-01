@@ -43,7 +43,7 @@ public class ProductCatalogApiClientTest {
 
     @Test
     public void testGetInformationAboutVariant() {
-        List<VariantInfo> variantInfoList = client.getInformationAboutVariant(1).getResult();
+        List<VariantInfo> variantInfoList = client.getInfoAboutVariant(1).getResult();
         Assert.assertTrue(variantInfoList != null && !variantInfoList.isEmpty());
 
 //        for (VariantInfo variantInfo : variantInfoList) {

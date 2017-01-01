@@ -62,7 +62,7 @@ public class ProductCatalogApiClient extends SimpleClient {
     }
 
     @Override
-    public Response<VariantInfo> getInformationAboutVariant(int variantId) {
+    public Response<VariantInfo> getInfoAboutVariant(int variantId) {
         try {
             String response = LibUtils.createConnection(base64Key, "products/variant/" + variantId,
                     configuration).execute().body();

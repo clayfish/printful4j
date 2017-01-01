@@ -2,6 +2,7 @@ package in.clayfish.printful;
 
 import in.clayfish.printful.enums.FileStatus;
 import in.clayfish.printful.enums.OrderStatus;
+import in.clayfish.printful.enums.SyncStatus;
 import in.clayfish.printful.models.File;
 import in.clayfish.printful.models.Order;
 import in.clayfish.printful.models.PackingSlip;
@@ -9,9 +10,13 @@ import in.clayfish.printful.models.Product;
 import in.clayfish.printful.models.Response;
 import in.clayfish.printful.models.ShippingRequest;
 import in.clayfish.printful.models.StoreData;
+import in.clayfish.printful.models.SyncProduct;
+import in.clayfish.printful.models.SyncVariant;
 import in.clayfish.printful.models.includable.Country;
 import in.clayfish.printful.models.info.ProductInfo;
 import in.clayfish.printful.models.info.ShippingInfo;
+import in.clayfish.printful.models.info.SyncProductInfo;
+import in.clayfish.printful.models.info.SyncVariantInfo;
 import in.clayfish.printful.models.info.TaxAddressInfo;
 import in.clayfish.printful.models.info.TaxInfo;
 import in.clayfish.printful.models.info.VariantInfo;
@@ -32,7 +37,7 @@ public interface Client {
      * @param variantId
      * @return
      */
-    Response<VariantInfo> getInformationAboutVariant(int variantId);
+    Response<VariantInfo> getInfoAboutVariant(int variantId);
 
     /**
      * @param productId
@@ -232,4 +237,92 @@ public interface Client {
      * @return Packing slip data
      */
     Response<PackingSlip> changeStorePackingSlip(PackingSlip packingSlip);
+
+    /**
+     * @param status Filter by item status (synced/unsynced/all). If only some of the variants are
+     *               synced,the product is returned by both unsynced and synced filters.
+     * @param offset Result set offset
+     * @param limit  Number of items per page (max 100)
+     * @return list of Sync Product objects from your store
+     */
+    Response<SyncProduct> getListOfSyncProducts(SyncStatus status, int offset, int limit);
+
+    /**
+     * @param id Sync Product ID
+     * @return information about a specific sync product and a list of sync variants for this product.
+     */
+    Response<SyncProductInfo> getInfoAboutSyncProductAndVariants(long id);
+
+    /**
+     * @param externalId External Sync Product ID (It will be prefixed with @)
+     * @return information about a specific sync product and a list of sync variants for this product.
+     */
+    Response<SyncProductInfo> getInfoAboutSyncProductAndVariants(String externalId);
+
+    /**
+     * Deletes configuration information (variant_id, print files and options) and disables
+     * automatic order importing for all synced variants of this Sync Product.
+     *
+     * @param id Sync Product ID
+     * @return Sync Product data and array of Sync Variants
+     */
+    Response<SyncProductInfo> unlinkAllSyncedVariantsOfProduct(long id);
+
+    /**
+     * Deletes configuration information (variant_id, print files and options) and disables
+     * automatic order importing for all synced variants of this Sync Product.
+     *
+     * @param externalId External Sync Product ID (It will be prefixed with @)
+     * @return Sync Product data and array of Sync Variants
+     */
+    Response<SyncProductInfo> unlinkAllSyncedVariantsOfProduct(String externalId);
+
+    /**
+     * @param id Sync Variant ID
+     * @return information about a Sync Variant
+     */
+    Response<SyncVariantInfo> getInfoAboutVariant(long id);
+
+    /**
+     * @param externalId External Sync Variant ID (It will be prefixed with @)
+     * @return information about a Sync Variant
+     */
+    Response<SyncVariantInfo> getInfoAboutVariant(String externalId);
+
+    /**
+     * Allows to configure selected Sync Variant with correct product, print files and additional options.
+     *
+     * @param variantId   Sync Variant ID
+     * @param syncVariant Sync Variant configuration data
+     * @return Sync Variant data and Sync Product data
+     */
+    Response<SyncVariantInfo> updateLinkedProductAndPrintFileInfo(long variantId, SyncVariant syncVariant);
+
+    /**
+     * Allows to configure selected Sync Variant with correct product, print files and additional options.
+     *
+     * @param externalVariantId External Sync Variant ID (It will be prefixed with @)
+     * @param syncVariant       Sync Variant configuration data
+     * @return Sync Variant data and Sync Product data
+     */
+    Response<SyncVariantInfo> updateLinkedProductAndPrintFileInfo(String externalVariantId, SyncVariant syncVariant);
+
+    /**
+     * Deletes configuration information (variant_id, print files and options) and disables
+     * automatic order importing for this Sync Variant.
+     *
+     * @param variantId Sync Variant ID
+     * @return Sync Variant data and Sync Product data
+     */
+    Response<SyncVariantInfo> unlinkSyncedVariant(long variantId);
+
+    /**
+     * Deletes configuration information (variant_id, print files and options) and disables
+     * automatic order importing for this Sync Variant.
+     *
+     * @param externalVariantId External Sync Variant ID (It will be prefixed with @)
+     * @return Sync Variant data and Sync Product data
+     */
+    Response<SyncVariantInfo> unlinkSyncedVariant(String externalVariantId);
+
 }

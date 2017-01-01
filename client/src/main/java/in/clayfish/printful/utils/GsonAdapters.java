@@ -24,18 +24,9 @@ import in.clayfish.printful.models.Order;
 import in.clayfish.printful.models.PackingSlip;
 import in.clayfish.printful.models.Product;
 import in.clayfish.printful.models.Response;
-import in.clayfish.printful.models.StoreData;
-import in.clayfish.printful.models.Variant;
 import in.clayfish.printful.models.includable.Address;
 import in.clayfish.printful.models.includable.ImageSize;
-import in.clayfish.printful.models.includable.Item;
 import in.clayfish.printful.models.includable.Paging;
-import in.clayfish.printful.models.includable.ProductVariant;
-import in.clayfish.printful.models.includable.Shipment;
-import in.clayfish.printful.models.info.AddressInfo;
-import in.clayfish.printful.models.info.ItemInfo;
-import in.clayfish.printful.models.info.TaxAddressInfo;
-import in.clayfish.printful.models.info.TaxInfo;
 
 /**
  * @author shuklaalok7
@@ -71,121 +62,13 @@ abstract class GsonAdapters {
 
         @Override
         public ImageSize deserialize(JsonElement jsonElement, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-
+            // TODO implement
             return null;
         }
 
         @Override
         public JsonElement serialize(ImageSize imageSize, Type typeOfSrc, JsonSerializationContext context) {
             return null;
-        }
-    }
-
-    /**
-     * It tweaks the fields of the model
-     *
-     * @author shuklaalok7
-     * @since 29/12/2016
-     */
-    static class VariantAdapterFactory extends CustomTypeAdapterFactory<Variant> {
-        VariantAdapterFactory() {
-            super(Variant.class);
-        }
-    }
-
-    /**
-     * It tweaks the fields of the model
-     *
-     * @author shuklaalok7
-     * @since 29/12/2016
-     */
-    static class StoreDataAdapterFactory extends CustomTypeAdapterFactory<StoreData> {
-        StoreDataAdapterFactory() {
-            super(StoreData.class);
-        }
-    }
-
-    /**
-     * It tweaks the fields of the model
-     *
-     * @author shuklaalok7
-     * @since 29/12/2016
-     */
-    static class ItemAdapterFactory extends CustomTypeAdapterFactory<Item> {
-        ItemAdapterFactory() {
-            super(Item.class);
-        }
-    }
-
-    /**
-     * It tweaks the fields of the model
-     *
-     * @author shuklaalok7
-     * @since 29/12/2016
-     */
-    static class ProductVariantAdapterFactory extends CustomTypeAdapterFactory<ProductVariant> {
-        ProductVariantAdapterFactory() {
-            super(ProductVariant.class);
-        }
-    }
-
-    /**
-     * It tweaks the fields of the model
-     *
-     * @author shuklaalok7
-     * @since 29/12/2016
-     */
-    static class ShipmentAdapterFactory extends CustomTypeAdapterFactory<Shipment> {
-        ShipmentAdapterFactory() {
-            super(Shipment.class);
-        }
-    }
-
-    /**
-     * It tweaks the fields of the model
-     *
-     * @author shuklaalok7
-     * @since 29/12/2016
-     */
-    static class AddressInfoAdapterFactory extends CustomTypeAdapterFactory<AddressInfo> {
-        AddressInfoAdapterFactory() {
-            super(AddressInfo.class);
-        }
-    }
-
-    /**
-     * It tweaks the fields of the model
-     *
-     * @author shuklaalok7
-     * @since 29/12/2016
-     */
-    static class TaxAddressInfoAdapterFactory extends CustomTypeAdapterFactory<TaxAddressInfo> {
-        TaxAddressInfoAdapterFactory() {
-            super(TaxAddressInfo.class);
-        }
-    }
-
-    /**
-     * It tweaks the fields of the model
-     *
-     * @author shuklaalok7
-     * @since 29/12/2016
-     */
-    static class TaxInfoAdapterFactory extends CustomTypeAdapterFactory<TaxInfo> {
-        TaxInfoAdapterFactory() {
-            super(TaxInfo.class);
-        }
-    }
-
-    /**
-     * It tweaks the fields of the model
-     *
-     * @author shuklaalok7
-     * @since 29/12/2016
-     */
-    static class ItemInfoAdapterFactory extends CustomTypeAdapterFactory<ItemInfo> {
-        ItemInfoAdapterFactory() {
-            super(ItemInfo.class);
         }
     }
 

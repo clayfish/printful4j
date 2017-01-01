@@ -16,7 +16,20 @@ import java.util.Date;
 
 import in.clayfish.printful.models.Configuration;
 import in.clayfish.printful.models.Response;
+import in.clayfish.printful.models.StoreData;
+import in.clayfish.printful.models.SyncProduct;
+import in.clayfish.printful.models.SyncVariant;
+import in.clayfish.printful.models.Variant;
 import in.clayfish.printful.models.includable.ImageSize;
+import in.clayfish.printful.models.includable.Item;
+import in.clayfish.printful.models.includable.ProductVariant;
+import in.clayfish.printful.models.includable.Shipment;
+import in.clayfish.printful.models.info.AddressInfo;
+import in.clayfish.printful.models.info.ItemInfo;
+import in.clayfish.printful.models.info.SyncProductInfo;
+import in.clayfish.printful.models.info.SyncVariantInfo;
+import in.clayfish.printful.models.info.TaxAddressInfo;
+import in.clayfish.printful.models.info.TaxInfo;
 
 /**
  * @author shuklaalok7
@@ -30,20 +43,25 @@ public abstract class LibUtils {
             .registerTypeAdapter(Response.class, new GsonAdapters.ResponseDeserializer())
             .registerTypeAdapter(ImageSize.class, new GsonAdapters.ImageSizeSearializer())
 
-            .registerTypeAdapterFactory(new GsonAdapters.ItemAdapterFactory())
             .registerTypeAdapterFactory(new GsonAdapters.FileAdapterFactory())
             .registerTypeAdapterFactory(new GsonAdapters.OrderAdapterFactory())
             .registerTypeAdapterFactory(new GsonAdapters.AddressAdapterFactory())
             .registerTypeAdapterFactory(new GsonAdapters.ProductAdapterFactory())
-            .registerTypeAdapterFactory(new GsonAdapters.VariantAdapterFactory())
-            .registerTypeAdapterFactory(new GsonAdapters.TaxInfoAdapterFactory())
-            .registerTypeAdapterFactory(new GsonAdapters.ShipmentAdapterFactory())
-            .registerTypeAdapterFactory(new GsonAdapters.ItemInfoAdapterFactory())
-            .registerTypeAdapterFactory(new GsonAdapters.StoreDataAdapterFactory())
             .registerTypeAdapterFactory(new GsonAdapters.PackingSlipAdapterFactory())
-            .registerTypeAdapterFactory(new GsonAdapters.AddressInfoAdapterFactory())
-            .registerTypeAdapterFactory(new GsonAdapters.TaxAddressInfoAdapterFactory())
-            .registerTypeAdapterFactory(new GsonAdapters.ProductVariantAdapterFactory())
+
+            .registerTypeAdapterFactory(new CustomTypeAdapterFactory<>(Item.class))
+            .registerTypeAdapterFactory(new CustomTypeAdapterFactory<>(TaxInfo.class))
+            .registerTypeAdapterFactory(new CustomTypeAdapterFactory<>(Variant.class))
+            .registerTypeAdapterFactory(new CustomTypeAdapterFactory<>(ItemInfo.class))
+            .registerTypeAdapterFactory(new CustomTypeAdapterFactory<>(Shipment.class))
+            .registerTypeAdapterFactory(new CustomTypeAdapterFactory<>(StoreData.class))
+            .registerTypeAdapterFactory(new CustomTypeAdapterFactory<>(SyncVariant.class))
+            .registerTypeAdapterFactory(new CustomTypeAdapterFactory<>(SyncProduct.class))
+            .registerTypeAdapterFactory(new CustomTypeAdapterFactory<>(AddressInfo.class))
+            .registerTypeAdapterFactory(new CustomTypeAdapterFactory<>(ProductVariant.class))
+            .registerTypeAdapterFactory(new CustomTypeAdapterFactory<>(TaxAddressInfo.class))
+            .registerTypeAdapterFactory(new CustomTypeAdapterFactory<>(SyncProductInfo.class))
+            .registerTypeAdapterFactory(new CustomTypeAdapterFactory<>(SyncVariantInfo.class))
             .create();
 
     /**

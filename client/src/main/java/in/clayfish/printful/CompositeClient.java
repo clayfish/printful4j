@@ -11,6 +11,7 @@ import in.clayfish.printful.clients.TaxRateApiClient;
 import in.clayfish.printful.clients.WebhookApiClient;
 import in.clayfish.printful.enums.FileStatus;
 import in.clayfish.printful.enums.OrderStatus;
+import in.clayfish.printful.enums.SyncStatus;
 import in.clayfish.printful.models.Configuration;
 import in.clayfish.printful.models.File;
 import in.clayfish.printful.models.Order;
@@ -19,9 +20,13 @@ import in.clayfish.printful.models.Product;
 import in.clayfish.printful.models.Response;
 import in.clayfish.printful.models.ShippingRequest;
 import in.clayfish.printful.models.StoreData;
+import in.clayfish.printful.models.SyncProduct;
+import in.clayfish.printful.models.SyncVariant;
 import in.clayfish.printful.models.includable.Country;
 import in.clayfish.printful.models.info.ProductInfo;
 import in.clayfish.printful.models.info.ShippingInfo;
+import in.clayfish.printful.models.info.SyncProductInfo;
+import in.clayfish.printful.models.info.SyncVariantInfo;
 import in.clayfish.printful.models.info.TaxAddressInfo;
 import in.clayfish.printful.models.info.TaxInfo;
 import in.clayfish.printful.models.info.VariantInfo;
@@ -52,8 +57,8 @@ public class CompositeClient implements Client {
     }
 
     /**
-     * @param apiKey
-     * @param configuration
+     * @param apiKey        YOUR_API_KEY
+     * @param configuration configuration object
      */
     public CompositeClient(String apiKey, Configuration configuration) {
         this.countryStateCodeApiClient = new CountryStateCodeApiClient(apiKey, configuration);
@@ -73,8 +78,8 @@ public class CompositeClient implements Client {
     }
 
     @Override
-    public Response<VariantInfo> getInformationAboutVariant(int variantId) {
-        return productCatalogApiClient.getInformationAboutVariant(variantId);
+    public Response<VariantInfo> getInfoAboutVariant(int variantId) {
+        return productCatalogApiClient.getInfoAboutVariant(variantId);
     }
 
     @Override
@@ -190,6 +195,61 @@ public class CompositeClient implements Client {
     @Override
     public Response<PackingSlip> changeStorePackingSlip(PackingSlip packingSlip) {
         return storeInfoApiClient.changeStorePackingSlip(packingSlip);
+    }
+
+    @Override
+    public Response<SyncProduct> getListOfSyncProducts(SyncStatus status, int offset, int limit) {
+        return eComPlatformSyncApiClient.getListOfSyncProducts(status, offset, limit);
+    }
+
+    @Override
+    public Response<SyncProductInfo> getInfoAboutSyncProductAndVariants(long id) {
+        return eComPlatformSyncApiClient.getInfoAboutSyncProductAndVariants(id);
+    }
+
+    @Override
+    public Response<SyncProductInfo> getInfoAboutSyncProductAndVariants(String externalId) {
+        return eComPlatformSyncApiClient.getInfoAboutSyncProductAndVariants(externalId);
+    }
+
+    @Override
+    public Response<SyncProductInfo> unlinkAllSyncedVariantsOfProduct(long id) {
+        return eComPlatformSyncApiClient.unlinkAllSyncedVariantsOfProduct(id);
+    }
+
+    @Override
+    public Response<SyncProductInfo> unlinkAllSyncedVariantsOfProduct(String externalId) {
+        return eComPlatformSyncApiClient.unlinkAllSyncedVariantsOfProduct(externalId);
+    }
+
+    @Override
+    public Response<SyncVariantInfo> getInfoAboutVariant(long id) {
+        return eComPlatformSyncApiClient.getInfoAboutVariant(id);
+    }
+
+    @Override
+    public Response<SyncVariantInfo> getInfoAboutVariant(String externalId) {
+        return eComPlatformSyncApiClient.getInfoAboutVariant(externalId);
+    }
+
+    @Override
+    public Response<SyncVariantInfo> updateLinkedProductAndPrintFileInfo(long variantId, SyncVariant syncVariant) {
+        return eComPlatformSyncApiClient.updateLinkedProductAndPrintFileInfo(variantId, syncVariant);
+    }
+
+    @Override
+    public Response<SyncVariantInfo> updateLinkedProductAndPrintFileInfo(String externalVariantId, SyncVariant syncVariant) {
+        return eComPlatformSyncApiClient.updateLinkedProductAndPrintFileInfo(externalVariantId, syncVariant);
+    }
+
+    @Override
+    public Response<SyncVariantInfo> unlinkSyncedVariant(long variantId) {
+        return eComPlatformSyncApiClient.unlinkSyncedVariant(variantId);
+    }
+
+    @Override
+    public Response<SyncVariantInfo> unlinkSyncedVariant(String externalVariantId) {
+        return eComPlatformSyncApiClient.unlinkSyncedVariant(externalVariantId);
     }
 
 }

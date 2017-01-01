@@ -54,7 +54,7 @@ public class OrdersApiClient extends SimpleClient {
             Connection connection = LibUtils.createConnection(base64Key, "orders", configuration);
 
             if (status != null) {
-                connection.data("status", status.name().toLowerCase());
+                connection.data("status", status.toString());
             }
 
             if (offset > 0) {
@@ -68,7 +68,6 @@ public class OrdersApiClient extends SimpleClient {
                 connection.data("limit", String.valueOf(limit));
             }
 
-//            return createResponseForMultipleOrders(connection.execute().body());
             return createResponseFromApi(connection.execute().body());
         } catch (IOException e) {
             Log.e(TAG, "Error occurred while getting list of orders.", e);
