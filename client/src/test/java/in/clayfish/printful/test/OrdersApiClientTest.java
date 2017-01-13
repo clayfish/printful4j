@@ -61,12 +61,14 @@ public class OrdersApiClientTest {
 
     @Test
     public void testGetOrderData1() {
-        // TODO implement
+        Response<Order> orderResponse = client.getOrderData(1899732);
+        Assert.assertTrue(orderResponse.getCode() == 200);
     }
 
     @Test
     public void testGetOrderData2() {
-        // TODO implement
+        Response<Order> orderResponse = client.getOrderData("12331");
+        Assert.assertTrue(orderResponse.getCode() == 200);
     }
 
     @Test
