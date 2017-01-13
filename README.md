@@ -22,13 +22,13 @@ And add following in dependencies,
 
 ```
 dependencies {
-    compile 'in.clayfish:printful4j:0.1.0'
+    compile 'in.clayfish:printful4j:0.2.0'
 }
 ```
 
 ### Java
 
-* **Using gradle**, `compile 'in.clayfish:printful4j:0.1.0'`
+* **Using gradle**, `compile 'in.clayfish:printful4j:0.2.0'`
 * **Using Maven**, Add following in `<repositories>`,
 
 ``` xml
@@ -43,7 +43,7 @@ dependencies {
 <dependency>
     <groupId>in.clayfish</groupId>
     <artifactId>printful4j</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
 </dependency>
 ```
 
@@ -53,7 +53,7 @@ resolvers += "jitpack" at "https://jitpack.io"
 ```
 And add following in the dependencies,
 ```
-libraryDependencies += "in.clayfish" % "printful4j" % "0.1.0"
+libraryDependencies += "in.clayfish" % "printful4j" % "0.2.0"
 ```
 
 * **Using leningen**, Add following in your project.clj at the end of repositories,
@@ -62,7 +62,7 @@ libraryDependencies += "in.clayfish" % "printful4j" % "0.1.0"
 ```
 And add following,
 ```
-:dependencies [[in.clayfish/printful4j "0.1.0"]]
+:dependencies [[in.clayfish/printful4j "0.2.0"]]
 ```
 
 For more information regarding download or using different build systems, please visit

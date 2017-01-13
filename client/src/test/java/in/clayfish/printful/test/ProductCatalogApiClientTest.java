@@ -20,7 +20,7 @@ import in.clayfish.printful.models.info.VariantInfo;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class ProductCatalogApiClientTest {
-    static String API_KEY = "l1zpya7z-w5e3-ce2a:kop5-fvlklkzc0qkn";
+    static String API_KEY = "YOUR_API_KEY";
     private Client client;
 
     @Before

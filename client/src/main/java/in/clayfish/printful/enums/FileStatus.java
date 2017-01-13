@@ -20,7 +20,14 @@ public enum FileStatus {
      */
     FAIL;
 
+    /**
+     * @param searchTerm The term to search status for
+     * @return Found FileStatus
+     */
     public static FileStatus find(String searchTerm) {
+        if (searchTerm == null || searchTerm.isEmpty()) {
+            return null;
+        }
         return FileStatus.valueOf(searchTerm.trim().toUpperCase());
     }
 

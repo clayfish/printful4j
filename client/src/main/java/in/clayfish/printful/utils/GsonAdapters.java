@@ -278,7 +278,7 @@ abstract class GsonAdapters {
             }
 
             if (json.has("paging")) {
-                response.setPaging(context.deserialize(json.get("paging"), Paging.class));
+                response.setPaging(context.<Paging>deserialize(json.get("paging"), Paging.class));
             }
 
             if (json.has("result")) {
