@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
 
-import org.apache.commons.codec.binary.Base64;
 import org.jsoup.Connection;
 
 import java.io.IOException;
@@ -44,7 +43,7 @@ public class OrdersApiClient extends SimpleClient {
      * @param configuration
      */
     public OrdersApiClient(String apiKey, Configuration configuration) {
-        this.base64Key = Base64.encodeBase64String(apiKey.getBytes());
+        this.base64Key = LibUtils.encodeToBase64(apiKey);
         this.configuration = configuration;
     }
 

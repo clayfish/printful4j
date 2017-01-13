@@ -2,7 +2,6 @@ package in.clayfish.printful.clients;
 
 import com.google.gson.reflect.TypeToken;
 
-import org.apache.commons.codec.binary.Base64;
 import org.jsoup.Connection;
 
 import java.io.IOException;
@@ -42,7 +41,7 @@ public class EComPlatformSyncApiClient extends SimpleClient {
      * @param configuration configuration object
      */
     public EComPlatformSyncApiClient(String apiKey, Configuration configuration) {
-        this.base64Key = Base64.encodeBase64String(apiKey.getBytes());
+        this.base64Key = LibUtils.encodeToBase64(apiKey);
         this.configuration = configuration;
     }
 

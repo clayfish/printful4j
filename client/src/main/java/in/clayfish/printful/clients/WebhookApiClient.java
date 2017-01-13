@@ -2,7 +2,6 @@ package in.clayfish.printful.clients;
 
 import com.google.gson.reflect.TypeToken;
 
-import org.apache.commons.codec.binary.Base64;
 import org.jsoup.Connection;
 
 import java.io.IOException;
@@ -38,7 +37,7 @@ public class WebhookApiClient extends SimpleClient {
      * @param configuration Configuration object
      */
     public WebhookApiClient(String apiKey, Configuration configuration) {
-        this.base64Key = Base64.encodeBase64String(apiKey.getBytes());
+        this.base64Key = LibUtils.encodeToBase64(apiKey);
         this.configuration = configuration;
     }
 

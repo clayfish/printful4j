@@ -4,8 +4,6 @@ import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
 
-import org.apache.commons.codec.binary.Base64;
-
 import java.io.IOException;
 import java.lang.reflect.Type;
 
@@ -42,7 +40,7 @@ public class ProductCatalogApiClient extends SimpleClient {
      * @param configuration
      */
     public ProductCatalogApiClient(String apiKey, Configuration configuration) {
-        this.base64Key = Base64.encodeBase64String(apiKey.getBytes());
+        this.base64Key = LibUtils.encodeToBase64(apiKey);
         this.configuration = configuration;
     }
 

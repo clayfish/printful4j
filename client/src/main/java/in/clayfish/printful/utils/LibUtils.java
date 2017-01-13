@@ -7,6 +7,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
+import org.apache.commons.codec.binary.Base64;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 
@@ -221,5 +222,13 @@ public abstract class LibUtils {
             }
         }
         return null;
+    }
+
+    /**
+     * @param str The string to encode
+     * @return Base64 encoded string
+     */
+    public static String encodeToBase64(String str) {
+        return new String(Base64.encodeBase64(str.getBytes()));
     }
 }
