@@ -63,13 +63,16 @@ abstract class GsonAdapters {
 
         @Override
         public ImageSize deserialize(JsonElement jsonElement, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            // TODO implement
-            return null;
+            String imageSizeObject = jsonElement.getAsString();
+
+            return new ImageSize(Integer.parseInt(imageSizeObject.split("x")[0].trim()),
+                    Integer.parseInt(imageSizeObject.split("x")[1].trim()));
         }
 
         @Override
         public JsonElement serialize(ImageSize imageSize, Type typeOfSrc, JsonSerializationContext context) {
-            return null;
+            String imageSizeString = String.format("%d x %d", imageSize.getWidth(), imageSize.getHeight());
+            return new JsonPrimitive(imageSizeString);
         }
     }
 
@@ -251,8 +254,9 @@ abstract class GsonAdapters {
             super.beforeToObject(json);
 
             JsonObject jsonObject = json.getAsJsonObject();
-            jsonObject.addProperty("stringId", jsonObject.get("id").getAsString());
+            jsonObject.addProperty("stringId", LibUtils.getFromJson(jsonObject, "id", String.class));
             jsonObject.remove("id");
+
             FileStatus fileStatus = FileStatus.find(LibUtils.getFromJson(jsonObject, "status", String.class));
             if (fileStatus != null) {
                 jsonObject.addProperty("status", fileStatus.name());

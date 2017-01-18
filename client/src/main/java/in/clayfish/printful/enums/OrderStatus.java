@@ -61,6 +61,9 @@ public enum OrderStatus {
      * @return Found OrderStatus
      */
     public static OrderStatus find(String term) {
+        if (term == null || term.isEmpty()) {
+            return null;
+        }
         return OrderStatus.valueOf(term.trim().toUpperCase());
     }
 

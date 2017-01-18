@@ -85,7 +85,7 @@ public class OrdersApiClient extends SimpleClient {
             String response = LibUtils.createConnection(base64Key, "orders", configuration)
                     .method(Connection.Method.POST).requestBody(LibUtils.gson.toJson(order))
                     .data("confirm", String.valueOf(confirm),
-                            "updateExisting", String.valueOf(updateExisting))
+                            "update_existing", String.valueOf(updateExisting))
                     .execute().body();
 
             return createResponseFromApi(response);

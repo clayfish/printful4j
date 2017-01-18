@@ -118,7 +118,7 @@ public class Address {
      * @author shuklaalok7
      * @since 2/01/2017
      */
-    public static class Builder {
+    public static class Builder implements in.clayfish.printful.models.Builder<Address> {
         private Address address;
         private boolean checkValidity;
 
@@ -176,11 +176,19 @@ public class Address {
             return this;
         }
 
+        /**
+         * @param company
+         * @return
+         */
         public Builder company(String company) {
             this.address.company = company;
             return this;
         }
 
+        /**
+         *
+         * @return
+         */
         public Address build() {
             if (checkValidity) {
                 checkValidity();
@@ -188,6 +196,9 @@ public class Address {
             return this.address;
         }
 
+        /**
+         *
+         */
         private void checkValidity() {
             if (this.address.country == null || this.address.country.getCode() == null || this.address.country.getCode().isEmpty()
                     || this.address.state == null || this.address.state.getCode() == null || this.address.state.getCode().isEmpty()

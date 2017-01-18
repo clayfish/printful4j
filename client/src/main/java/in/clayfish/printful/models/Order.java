@@ -178,7 +178,7 @@ public class Order extends Entity {
     /**
      * Builds an order
      */
-    public static class Builder {
+    public static class Builder implements in.clayfish.printful.models.Builder<Order> {
         private Order order;
         private boolean checkValidity;
 
@@ -186,9 +186,7 @@ public class Order extends Entity {
             this.order = new Order();
         }
 
-        /**
-         * @return Builder object
-         */
+        @Override
         public Builder check() {
             this.checkValidity = true;
             return this;
@@ -281,9 +279,7 @@ public class Order extends Entity {
             return this;
         }
 
-        /**
-         * @return
-         */
+        @Override
         public Order build() {
             if (checkValidity) {
                 checkValidity();

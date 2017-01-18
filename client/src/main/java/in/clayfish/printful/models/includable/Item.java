@@ -147,7 +147,7 @@ public class Item extends Entity {
      * @author shuklaalok7
      * @since 2/01/2017
      */
-    public static class Builder {
+    public static class Builder implements in.clayfish.printful.models.Builder<Item> {
         private Item item;
         private boolean checkValidity;
 
@@ -156,6 +156,7 @@ public class Item extends Entity {
             this.item.quantity = 1;
         }
 
+        @Override
         public Builder check() {
             this.checkValidity = true;
             return this;
@@ -212,6 +213,7 @@ public class Item extends Entity {
             return this;
         }
 
+        @Override
         public Item build() {
             if (checkValidity) {
                 checkValidity();
