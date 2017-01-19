@@ -126,6 +126,7 @@ public class Address {
             this.address = new Address();
         }
 
+        @Override
         public Builder check() {
             this.checkValidity = true;
             return this;
@@ -185,10 +186,7 @@ public class Address {
             return this;
         }
 
-        /**
-         *
-         * @return
-         */
+        @Override
         public Address build() {
             if (checkValidity) {
                 checkValidity();
@@ -202,10 +200,10 @@ public class Address {
         private void checkValidity() {
             if (this.address.country == null || this.address.country.getCode() == null || this.address.country.getCode().isEmpty()
                     || this.address.state == null || this.address.state.getCode() == null || this.address.state.getCode().isEmpty()
-                    || this.address.name == null || !this.address.name.isEmpty()
-                    || this.address.city == null || !this.address.city.isEmpty()
-                    || this.address.address1 == null || !this.address.address1.isEmpty()
-                    || this.address.zip == null || !this.address.zip.isEmpty()) {
+                    || this.address.name == null || this.address.name.isEmpty()
+                    || this.address.city == null || this.address.city.isEmpty()
+                    || this.address.address1 == null || this.address.address1.isEmpty()
+                    || this.address.zip == null || this.address.zip.isEmpty()) {
                 throw new ValidationFailedException();
             }
         }
