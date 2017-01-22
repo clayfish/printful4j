@@ -40,15 +40,15 @@ public abstract class LibUtils {
     public static Gson gson = new GsonBuilder()
 //            .enableComplexMapKeySerialization()
 
-            .registerTypeAdapter(Date.class, new GsonAdapters.DateSerializer())
-            .registerTypeAdapter(Response.class, new GsonAdapters.ResponseDeserializer())
-            .registerTypeAdapter(ImageSize.class, new GsonAdapters.ImageSizeSerializer())
+            .registerTypeAdapter(Date.class, new GsonAdaptors.DateSerializer())
+            .registerTypeAdapter(Response.class, new GsonAdaptors.ResponseDeserializer())
+            .registerTypeAdapter(ImageSize.class, new GsonAdaptors.ImageSizeSerializer())
 
-            .registerTypeAdapterFactory(new GsonAdapters.FileAdapterFactory())
-            .registerTypeAdapterFactory(new GsonAdapters.OrderAdapterFactory())
-            .registerTypeAdapterFactory(new GsonAdapters.AddressAdapterFactory())
-            .registerTypeAdapterFactory(new GsonAdapters.ProductAdapterFactory())
-            .registerTypeAdapterFactory(new GsonAdapters.PackingSlipAdapterFactory())
+            .registerTypeAdapterFactory(new GsonAdaptors.FileAdapterFactory())
+            .registerTypeAdapterFactory(new GsonAdaptors.OrderAdapterFactory())
+            .registerTypeAdapterFactory(new GsonAdaptors.AddressAdapterFactory())
+            .registerTypeAdapterFactory(new GsonAdaptors.ProductAdapterFactory())
+            .registerTypeAdapterFactory(new GsonAdaptors.PackingSlipAdapterFactory())
 
             .registerTypeAdapterFactory(new CustomTypeAdapterFactory<>(Item.class))
             .registerTypeAdapterFactory(new CustomTypeAdapterFactory<>(TaxInfo.class))

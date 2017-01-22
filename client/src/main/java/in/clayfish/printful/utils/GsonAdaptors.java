@@ -33,7 +33,7 @@ import in.clayfish.printful.models.includable.Paging;
  * @author shuklaalok7
  * @since 29/12/2016
  */
-abstract class GsonAdapters {
+abstract class GsonAdaptors {
 
     /**
      * @author shuklaalok7
