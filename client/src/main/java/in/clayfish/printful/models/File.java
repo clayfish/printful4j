@@ -84,6 +84,18 @@ public class File extends Entity {
      */
     private boolean visible;
 
+    public File(String type, String url) {
+        this.type = type;
+        this.url = url;
+    }
+
+    public File(String url) {
+        this.url = url;
+    }
+
+    public File() {
+    }
+
     public String getTitle() {
         return title;
     }
