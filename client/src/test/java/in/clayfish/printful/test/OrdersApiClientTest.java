@@ -32,7 +32,7 @@ public class OrdersApiClientTest {
 
     @Test
     public void testGetListOfOrders() {
-        List<Order> orders = client.getListOfOrders(OrderStatus.DRAFT, 0, 0).getResult();
+        List<Order> orders = client.getListOfOrders(OrderStatus.DRAFT, 0, 0).result;
         System.out.println(orders.size());
     }
 
@@ -57,21 +57,21 @@ public class OrdersApiClientTest {
 
         Response<Order> orderResponse = client.createANewOrder(order, false, false);
 
-        Assert.assertTrue(orderResponse.getCode() == 200);
+        Assert.assertTrue(orderResponse.code == 200);
 
-        System.out.println(orderResponse.getCode() + ": " + orderResponse.getResult());
+        System.out.println(orderResponse.code + ": " + orderResponse.result);
     }
 
     @Test
     public void testGetOrderData1() {
         Response<Order> orderResponse = client.getOrderData(1899732);
-        Assert.assertTrue(orderResponse.getCode() == 200);
+        Assert.assertTrue(orderResponse.code == 200);
     }
 
     @Test
     public void testGetOrderData2() {
         Response<Order> orderResponse = client.getOrderData("12332");
-        Assert.assertTrue(orderResponse.getCode() == 200);
+        Assert.assertTrue(orderResponse.code == 200);
     }
 
     @Test

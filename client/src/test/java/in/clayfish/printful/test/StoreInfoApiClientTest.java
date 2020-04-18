@@ -29,13 +29,13 @@ public class StoreInfoApiClientTest {
 
     @Test
     public void testGetStoreInfo() {
-        Response<StoreData> response = client.getStoreInfo();
+        Response<StoreData> response = client.storeInfo;
 
-        Assert.assertTrue(response.getCode() == 200);
-        Assert.assertNotNull(response.getResult());
-        Assert.assertTrue(response.getResult().size() == 1);
+        Assert.assertTrue(response.code == 200);
+        Assert.assertNotNull(response.result);
+        Assert.assertTrue(response.result.size() == 1);
 
-        StoreData storeData = response.getResult().get(0);
+        StoreData storeData = response.result.get(0);
         Assert.assertNotNull(storeData);
 
         System.out.println(format(Locale.ENGLISH, "%s (%s)\nFirst used on: %s", storeData.getName(),
@@ -52,11 +52,11 @@ public class StoreInfoApiClientTest {
 
         Response<PackingSlip> packingSlipResponse = client.changeStorePackingSlip(packingSlip);
 
-        Assert.assertTrue(packingSlipResponse.getCode() == 200);
-        Assert.assertNotNull(packingSlipResponse.getResult());
-        Assert.assertTrue(packingSlipResponse.getResult().size() == 1);
+        Assert.assertTrue(packingSlipResponse.code == 200);
+        Assert.assertNotNull(packingSlipResponse.result);
+        Assert.assertTrue(packingSlipResponse.result.size() == 1);
 
-        packingSlip = packingSlipResponse.getResult().get(0);
+        packingSlip = packingSlipResponse.result.get(0);
         Assert.assertNotNull(packingSlip);
 
         Assert.assertEquals("info@clay.fish", packingSlip.getEmail());

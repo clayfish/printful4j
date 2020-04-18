@@ -34,16 +34,16 @@ public class TaxRateApiClientTest {
         Response<Country> response = client.retrieveStateListThatRequiresTaxCalculation();
 
         Assert.assertNotNull(response);
-        Assert.assertTrue(response.getCode() == 200);
-        Assert.assertNotNull(response.getResult());
+        Assert.assertTrue(response.code == 200);
+        Assert.assertNotNull(response.result);
 
-        for (Country country : response.getResult()) {
+        for (Country country : response.result) {
             System.out.println("--------------------------------------------------");
-            System.out.println(format(Locale.ENGLISH, "\t\t\t%s (%s)", country.getName(),
-                    country.getCode()));
+            System.out.println(format(Locale.ENGLISH, "\t\t\t%s (%s)", country.name,
+                    country.code));
             System.out.println("--------------------------------------------------");
 
-            for (State state : country.getStates()) {
+            for (State state : country.states) {
                 System.out.println(format(Locale.ENGLISH, "%s (%s)", state.getName(), state.getCode()));
             }
         }
@@ -60,12 +60,12 @@ public class TaxRateApiClientTest {
         Response<TaxInfo> response = client.calculateTaxRate(taxAddressInfo);
 
         Assert.assertNotNull(response);
-        Assert.assertTrue(response.getCode() == 200);
-        Assert.assertNotNull(response.getResult());
+        Assert.assertTrue(response.code == 200);
+        Assert.assertNotNull(response.result);
 
-        Assert.assertTrue(response.getResult().size() == 1);
+        Assert.assertTrue(response.result.size() == 1);
 
-        TaxInfo taxInfo = response.getResult().get(0);
+        TaxInfo taxInfo = response.result.get(0);
 
         Assert.assertNotNull(taxInfo);
 

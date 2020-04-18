@@ -40,10 +40,10 @@ public class ShippingRateApiClientTest {
 
         Response<ShippingInfo> response = client.calculateShippingRates(shippingRequest);
 
-        Assert.assertTrue(response.getCode() == 200);
-        Assert.assertTrue(response.getResult() != null);
+        Assert.assertTrue(response.code == 200);
+        Assert.assertTrue(response.result != null);
 
-        for (ShippingInfo shippingInfo : response.getResult()) {
+        for (ShippingInfo shippingInfo : response.result) {
             System.out.println(String.format(Locale.ENGLISH, "%s: %s %s - %s", shippingInfo.getId(),
                     shippingInfo.getCurrency(), shippingInfo.getRate(), shippingInfo.getName()));
         }

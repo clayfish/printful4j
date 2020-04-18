@@ -1,4 +1,4 @@
-package in.clayfish.printful.enums;
+package `in`.clayfish.printful.enums
 
 /**
  * See https://www.theprintful.com/docs/orders
@@ -6,7 +6,7 @@ package in.clayfish.printful.enums;
  * @author shuklaalok7
  * @since 24/12/2016
  */
-public enum OrderStatus {
+enum class OrderStatus {
     /**
      * The order is created but is not yet submitted for fulfillment. You still can edit it and
      * confirm later.
@@ -53,22 +53,16 @@ public enum OrderStatus {
      */
     FULFILLED;
 
+    override fun toString() = name.toLowerCase()
 
-    /**
-     * This is the easiest way to loosely find an OrderStatus object for a string
-     *
-     * @param term Term to search status with
-     * @return Found OrderStatus
-     */
-    public static OrderStatus find(String term) {
-        if (term == null || term.isEmpty()) {
-            return null;
-        }
-        return OrderStatus.valueOf(term.trim().toUpperCase());
-    }
-
-    @Override
-    public String toString() {
-        return this.name().toLowerCase();
+    companion object {
+        /**
+         * This is the easiest way to loosely find an OrderStatus object for a string
+         *
+         * @param term Term to search status with
+         * @return Found OrderStatus
+         */
+        fun find(term: String?) = if (term == null || term.isEmpty()) null
+        else valueOf(term.trim { it <= ' ' }.toUpperCase())
     }
 }

@@ -1,50 +1,33 @@
-package in.clayfish.printful;
+package `in`.clayfish.printful
 
-import in.clayfish.printful.enums.FileStatus;
-import in.clayfish.printful.enums.OrderStatus;
-import in.clayfish.printful.enums.SyncStatus;
-import in.clayfish.printful.models.File;
-import in.clayfish.printful.models.Order;
-import in.clayfish.printful.models.PackingSlip;
-import in.clayfish.printful.models.Product;
-import in.clayfish.printful.models.Response;
-import in.clayfish.printful.models.ShippingRequest;
-import in.clayfish.printful.models.StoreData;
-import in.clayfish.printful.models.SyncProduct;
-import in.clayfish.printful.models.SyncVariant;
-import in.clayfish.printful.models.includable.Country;
-import in.clayfish.printful.models.info.ProductInfo;
-import in.clayfish.printful.models.info.ShippingInfo;
-import in.clayfish.printful.models.info.SyncProductInfo;
-import in.clayfish.printful.models.info.SyncVariantInfo;
-import in.clayfish.printful.models.info.TaxAddressInfo;
-import in.clayfish.printful.models.info.TaxInfo;
-import in.clayfish.printful.models.info.VariantInfo;
-import in.clayfish.printful.models.info.WebhookInfo;
+import `in`.clayfish.printful.enums.FileStatus
+import `in`.clayfish.printful.enums.OrderStatus
+import `in`.clayfish.printful.enums.SyncStatus
+import `in`.clayfish.printful.models.*
+import `in`.clayfish.printful.models.includable.Country
+import `in`.clayfish.printful.models.info.*
 
 /**
  * @author shuklaalok7
  * @since 21/12/2016
  */
-public interface Client {
-
+interface Client {
     /**
-     * @return All the products as returned from {@code GET /orders}
+     * @return All the products as returned from `GET /orders`
      */
-    Response<Product> getAllProductList();
+    val allProductList: Response<Product?>?
 
     /**
      * @param variantId
      * @return
      */
-    Response<VariantInfo> getInfoAboutVariant(int variantId);
+    fun getInfoAboutVariant(variantId: Int): Response<VariantInfo?>?
 
     /**
      * @param productId
      * @return
      */
-    Response<ProductInfo> getProductsVariantsList(int productId);
-
+    fun getProductsVariantsList(productId: Int): Response<ProductInfo?>?
 
     /**
      * @param status Filter by order status
@@ -52,7 +35,7 @@ public interface Client {
      * @param limit  Number of items per page (max 100)
      * @return list of order objects from your store
      */
-    Response<Order> getListOfOrders(OrderStatus status, int offset, int limit);
+    fun getListOfOrders(status: OrderStatus?, offset: Int, limit: Int): Response<Order?>?
 
     /**
      * Creates a new order and optionally submits it for fulfillment
@@ -62,8 +45,7 @@ public interface Client {
      * @param updateExisting Try to update existing order if an order with the specified external_id already exists
      * @return
      */
-    Response<Order> createANewOrder(Order order, boolean confirm, boolean updateExisting);
-
+    fun createANewOrder(order: Order?, confirm: Boolean, updateExisting: Boolean): Response<Order?>?
 
     /**
      * Returns order data by ID.
@@ -71,7 +53,7 @@ public interface Client {
      * @param orderId Order ID (integer)
      * @return
      */
-    Response<Order> getOrderData(int orderId);
+    fun getOrderData(orderId: Int): Response<Order?>?
 
     /**
      * Returns order data by External ID.
@@ -79,7 +61,7 @@ public interface Client {
      * @param externalId External ID (String)
      * @return
      */
-    Response<Order> getOrderData(String externalId);
+    fun getOrderData(externalId: String?): Response<Order?>?
 
     /**
      * Cancels pending order or draft. Charged amount is returned to the store owner's credit card.
@@ -87,7 +69,7 @@ public interface Client {
      * @param orderId ORDER ID
      * @return
      */
-    Response<Order> cancelAnOrder(int orderId);
+    fun cancelAnOrder(orderId: Int): Response<Order?>?
 
     /**
      * Cancels pending order or draft. Charged amount is returned to the store owner's credit card.
@@ -95,41 +77,41 @@ public interface Client {
      * @param externalId External ID
      * @return
      */
-    Response<Order> cancelAnOrder(String externalId);
+    fun cancelAnOrder(externalId: String?): Response<Order?>?
 
     /**
-     * Updates unsubmitted order and optionally submits it for the fulfillment.<br/>
-     * Note that you need to post only the fields that need to be changed, not all required fields.<br/>
+     * Updates unsubmitted order and optionally submits it for the fulfillment.<br></br>
+     * Note that you need to post only the fields that need to be changed, not all required fields.<br></br>
      * If items array is given in the update data, the items will be:
-     * <ol>
-     * <li>updated, if the update data contains the item id or external_id parameter that alreay exists</li>
-     * <li>deleted, if the request doesn't contain the item with previously existing id</li>
-     * <li>created as new if the id is not given or does not already exist</li>
-     * </ol>
+     *
+     *  1. updated, if the update data contains the item id or external_id parameter that alreay exists
+     *  1. deleted, if the request doesn't contain the item with previously existing id
+     *  1. created as new if the id is not given or does not already exist
+     *
      *
      * @param orderId
      * @param order   Order data
      * @param confirm Automatically submit the newly created order for fulfillment (skip the Draft phase)
      * @return
      */
-    Response<Order> updateOrderData(int orderId, Order order, boolean confirm);
+    fun updateOrderData(orderId: Int, order: Order?, confirm: Boolean): Response<Order?>?
 
     /**
-     * Updates unsubmitted order and optionally submits it for the fulfillment.<br/>
-     * Note that you need to post only the fields that need to be changed, not all required fields.<br/>
+     * Updates unsubmitted order and optionally submits it for the fulfillment.<br></br>
+     * Note that you need to post only the fields that need to be changed, not all required fields.<br></br>
      * If items array is given in the update data, the items will be:
-     * <ol>
-     * <li>updated, if the update data contains the item id or external_id parameter that alreay exists</li>
-     * <li>deleted, if the request doesn't contain the item with previously existing id</li>
-     * <li>created as new if the id is not given or does not already exist</li>
-     * </ol>
+     *
+     *  1. updated, if the update data contains the item id or external_id parameter that alreay exists
+     *  1. deleted, if the request doesn't contain the item with previously existing id
+     *  1. created as new if the id is not given or does not already exist
+     *
      *
      * @param externalId
      * @param order      Order data
      * @param confirm    Automatically submit the newly created order for fulfillment (skip the Draft phase)
      * @return
      */
-    Response<Order> updateOrderData(String externalId, Order order, boolean confirm);
+    fun updateOrderData(externalId: String?, order: Order?, confirm: Boolean): Response<Order?>?
 
     /**
      * Approves for fulfillment an order that was saved as a draft. Store owner's credit card is charged when the order is submitted for fulfillment.
@@ -137,7 +119,7 @@ public interface Client {
      * @param orderId
      * @return
      */
-    Response<Order> confirmDraftForFulfillment(int orderId);
+    fun confirmDraftForFulfillment(orderId: Int): Response<Order?>?
 
     /**
      * Approves for fulfillment an order that was saved as a draft. Store owner's credit card is charged when the order is submitted for fulfillment.
@@ -145,32 +127,32 @@ public interface Client {
      * @param externalId
      * @return Order data
      */
-    Response<Order> confirmDraftForFulfillment(String externalId);
-
+    fun confirmDraftForFulfillment(externalId: String?): Response<Order?>?
     // FILES API
-
     /**
      * @param status Filter by file status
      * @param offset Result set offset
      * @param limit  Number of items per page (max 100)
      * @return List of last added files
      */
-    Response<File> getListOfFiles(FileStatus status, int offset, int limit);
+    fun getListOfFiles(status: FileStatus?, offset: Int, limit: Int): Response<File?>?
 
     /**
-     * Adds a new File to the library by providing URL of the file.<p>
+     * Adds a new File to the library by providing URL of the file.
+     *
+     *
      * If a file with identical URL already exists, then the original file is returned. If a file does not exist, a new file is created.
      *
      * @param file File data (url parameter is required)
      * @return File data
      */
-    Response<File> addANewFile(File file);
+    fun addANewFile(file: File?): Response<File?>?
 
     /**
      * @param fileId ID of the file
      * @return
      */
-    Response<File> getFileInfo(int fileId);
+    fun getFileInfo(fileId: Int): Response<File?>?
 
     /**
      * Returns available shipping options and rates for the given list of products.
@@ -178,19 +160,19 @@ public interface Client {
      * @param request Order information
      * @return List of shipping rate information
      */
-    Response<ShippingInfo> calculateShippingRates(ShippingRequest request);
+    fun calculateShippingRates(request: ShippingRequest?): Response<ShippingInfo?>?
 
     /**
      * Returns list of countries and states that are accepted by the Printful.
      *
      * @return List of countries
      */
-    Response<Country> retrieveCountryList();
+    fun retrieveCountryList(): Response<Country?>?
 
     /**
      * @return a list of countries and states that need Printful sales tax calculation.
      */
-    Response<Country> retrieveStateListThatRequiresTaxCalculation();
+    fun retrieveStateListThatRequiresTaxCalculation(): Response<Country?>?
 
     /**
      * Calculates sales tax rate for given address if required
@@ -198,37 +180,43 @@ public interface Client {
      * @param taxAddressInfo Tax address information
      * @return Sales tax rate for given address
      */
-    Response<TaxInfo> calculateTaxRate(TaxAddressInfo taxAddressInfo);
+    fun calculateTaxRate(taxAddressInfo: TaxAddressInfo?): Response<TaxInfo?>?
 
     /**
      * @return configured webhook URL and list of webhook event types enabled for the store
      */
-    Response<WebhookInfo> getWebhookConfig();
+    val webhookConfig: Response<WebhookInfo?>?
 
     /**
-     * Allows to enable webhook URL for the store and select webhook event types that will be sent to this URL.<p>
-     * Note that only one webhook URL can be active for a store, so calling this method disables all existing webhook configuration.<p>
+     * Allows to enable webhook URL for the store and select webhook event types that will be sent to this URL.
+     *
+     *
+     * Note that only one webhook URL can be active for a store, so calling this method disables all existing webhook configuration.
+     *
+     *
      * Method returns current webhook configuration after the update.
      *
      * @param webhookInfo Webhook data
      * @return Webhook info
      */
-    Response<WebhookInfo> setupWebhookConfig(WebhookInfo webhookInfo);
+    fun setupWebhookConfig(webhookInfo: WebhookInfo?): Response<WebhookInfo?>?
 
     /**
-     * Removes the webhook URL and selected event types from the store.<p>
+     * Removes the webhook URL and selected event types from the store.
+     *
+     *
      * Method returns current webhook configuration after the update.
      *
      * @return Webhook info
      */
-    Response<WebhookInfo> disableWebhookSupport();
+    fun disableWebhookSupport(): Response<WebhookInfo?>?
 
     /**
      * Returns basic information about the currently authorized Printful store.
      *
      * @return Store information
      */
-    Response<StoreData> getStoreInfo();
+    val storeInfo: Response<StoreData?>?
 
     /**
      * Modifies packing slip information of the currently authorized Printful store.
@@ -236,28 +224,28 @@ public interface Client {
      * @param packingSlip packing slip data
      * @return Packing slip data
      */
-    Response<PackingSlip> changeStorePackingSlip(PackingSlip packingSlip);
+    fun changeStorePackingSlip(packingSlip: PackingSlip?): Response<PackingSlip?>?
 
     /**
      * @param status Filter by item status (synced/unsynced/all). If only some of the variants are
-     *               synced,the product is returned by both unsynced and synced filters.
+     * synced,the product is returned by both unsynced and synced filters.
      * @param offset Result set offset
      * @param limit  Number of items per page (max 100)
      * @return list of Sync Product objects from your store
      */
-    Response<SyncProduct> getListOfSyncProducts(SyncStatus status, int offset, int limit);
+    fun getListOfSyncProducts(status: SyncStatus?, offset: Int, limit: Int): Response<SyncProduct?>?
 
     /**
      * @param id Sync Product ID
      * @return information about a specific sync product and a list of sync variants for this product.
      */
-    Response<SyncProductInfo> getInfoAboutSyncProductAndVariants(long id);
+    fun getInfoAboutSyncProductAndVariants(id: Long): Response<SyncProductInfo?>?
 
     /**
      * @param externalId External Sync Product ID (It will be prefixed with @)
      * @return information about a specific sync product and a list of sync variants for this product.
      */
-    Response<SyncProductInfo> getInfoAboutSyncProductAndVariants(String externalId);
+    fun getInfoAboutSyncProductAndVariants(externalId: String?): Response<SyncProductInfo?>?
 
     /**
      * Deletes configuration information (variant_id, print files and options) and disables
@@ -266,7 +254,7 @@ public interface Client {
      * @param id Sync Product ID
      * @return Sync Product data and array of Sync Variants
      */
-    Response<SyncProductInfo> unlinkAllSyncedVariantsOfProduct(long id);
+    fun unlinkAllSyncedVariantsOfProduct(id: Long): Response<SyncProductInfo?>?
 
     /**
      * Deletes configuration information (variant_id, print files and options) and disables
@@ -275,19 +263,19 @@ public interface Client {
      * @param externalId External Sync Product ID (It will be prefixed with @)
      * @return Sync Product data and array of Sync Variants
      */
-    Response<SyncProductInfo> unlinkAllSyncedVariantsOfProduct(String externalId);
+    fun unlinkAllSyncedVariantsOfProduct(externalId: String?): Response<SyncProductInfo?>?
 
     /**
      * @param id Sync Variant ID
      * @return information about a Sync Variant
      */
-    Response<SyncVariantInfo> getInfoAboutVariant(long id);
+    fun getInfoAboutVariant(id: Long): Response<SyncVariantInfo?>?
 
     /**
      * @param externalId External Sync Variant ID (It will be prefixed with @)
      * @return information about a Sync Variant
      */
-    Response<SyncVariantInfo> getInfoAboutVariant(String externalId);
+    fun getInfoAboutVariant(externalId: String?): Response<SyncVariantInfo?>?
 
     /**
      * Allows to configure selected Sync Variant with correct product, print files and additional options.
@@ -296,7 +284,7 @@ public interface Client {
      * @param syncVariant Sync Variant configuration data
      * @return Sync Variant data and Sync Product data
      */
-    Response<SyncVariantInfo> updateLinkedProductAndPrintFileInfo(long variantId, SyncVariant syncVariant);
+    fun updateLinkedProductAndPrintFileInfo(variantId: Long, syncVariant: SyncVariant?): Response<SyncVariantInfo?>?
 
     /**
      * Allows to configure selected Sync Variant with correct product, print files and additional options.
@@ -305,7 +293,7 @@ public interface Client {
      * @param syncVariant       Sync Variant configuration data
      * @return Sync Variant data and Sync Product data
      */
-    Response<SyncVariantInfo> updateLinkedProductAndPrintFileInfo(String externalVariantId, SyncVariant syncVariant);
+    fun updateLinkedProductAndPrintFileInfo(externalVariantId: String?, syncVariant: SyncVariant?): Response<SyncVariantInfo?>?
 
     /**
      * Deletes configuration information (variant_id, print files and options) and disables
@@ -314,7 +302,7 @@ public interface Client {
      * @param variantId Sync Variant ID
      * @return Sync Variant data and Sync Product data
      */
-    Response<SyncVariantInfo> unlinkSyncedVariant(long variantId);
+    fun unlinkSyncedVariant(variantId: Long): Response<SyncVariantInfo?>?
 
     /**
      * Deletes configuration information (variant_id, print files and options) and disables
@@ -323,6 +311,5 @@ public interface Client {
      * @param externalVariantId External Sync Variant ID (It will be prefixed with @)
      * @return Sync Variant data and Sync Product data
      */
-    Response<SyncVariantInfo> unlinkSyncedVariant(String externalVariantId);
-
+    fun unlinkSyncedVariant(externalVariantId: String?): Response<SyncVariantInfo?>?
 }

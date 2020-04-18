@@ -76,10 +76,18 @@ First create a variable to keep your client,
 Client printfulClient = new CompositeClient("YOUR_API_KEY");
 ```
 
+``` kotlin
+val printfulClient = CompositeClient("YOUR_API_KEY")
+```
+
 `CompositeClient` uses multiple specific clients to serve full API, if you want to use a specific
 API, you can use a specific API client, for example,
 ``` java
 Client printfulOrdersClient = new OrdersApiClient("YOUR_API_KEY");
+```
+
+``` kotlin
+val printfulOrdersClient = OrdersApiClient("YOUR_API_KEY")
 ```
 
 > Do remember that `OrdersApiClient` will have all the methods available, but methods which are not

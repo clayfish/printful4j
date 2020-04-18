@@ -30,11 +30,11 @@ public class ProductCatalogApiClientTest {
 
     @Test
     public void testGetAllProductList() {
-        List<Product> products = client.getAllProductList().getResult();
+        List<Product> products = client.allProductList.getResult();
         Assert.assertTrue(products != null && !products.isEmpty());
 
         for (Product product : products) {
-            System.out.println(product.getId());
+            System.out.println(product.id);
 //            System.out.println(String.format(Locale.ENGLISH, "%s %s (id=%d, totalVariants=%d)",
 //                    product.getBrand(), product.getModel(), product.getId(),
 //                    product.getVariantCount()));
@@ -43,7 +43,7 @@ public class ProductCatalogApiClientTest {
 
     @Test
     public void testGetInformationAboutVariant() {
-        List<VariantInfo> variantInfoList = client.getInfoAboutVariant(1).getResult();
+        List<VariantInfo> variantInfoList = client.getInfoAboutVariant(1).result;
         Assert.assertTrue(variantInfoList != null && !variantInfoList.isEmpty());
 
 //        for (VariantInfo variantInfo : variantInfoList) {
@@ -54,18 +54,18 @@ public class ProductCatalogApiClientTest {
 
     @Test
     public void testGetProductsVariantsList() {
-        List<ProductInfo> productInfoList = client.getProductsVariantsList(1).getResult();
+        List<ProductInfo> productInfoList = client.getProductsVariantsList(1).result;
         Assert.assertTrue(productInfoList != null && !productInfoList.isEmpty());
 
         Product product = productInfoList.get(0).getProduct();
         System.out.println(String.format(Locale.ENGLISH, "%d: %s %s (totalVariants=%d)",
-                product.getId(), product.getType(), product.getModel(), product.getVariantCount()));
+                product.id, product.getType(), product.getModel(), product.getVariantCount()));
 
         for (ProductInfo productInfo : productInfoList) {
             for (Variant variant : productInfo.getVariants()) {
 
                 System.out.println(String.format(Locale.ENGLISH, "%d,%s,%s,%s,%s,%s,%.2f,%b",
-                        variant.getId(), variant.getName(), variant.getSize(), variant.getColor(),
+                        variant.id, variant.getName(), variant.getSize(), variant.getColor(),
                         variant.getColorCode(), variant.getImage(), variant.getPrice(),
                         variant.isInStock()));
             }

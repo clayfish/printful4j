@@ -24,16 +24,16 @@ public class CountryStateCodeApiClientTest {
         Client client = new CountryStateCodeApiClient(ProductCatalogApiClientTest.API_KEY);
         Response<Country> countriesResponse = client.retrieveCountryList();
 
-        Assert.assertTrue(countriesResponse.getCode() == 200);
-        Assert.assertTrue(countriesResponse.getResult() != null && !countriesResponse.getResult().isEmpty());
+        Assert.assertTrue(countriesResponse.code == 200);
+        Assert.assertTrue(countriesResponse.result != null && !countriesResponse.result.isEmpty());
 
-        for (Country country : countriesResponse.getResult()) {
+        for (Country country : countriesResponse.result) {
             System.out.println("-----------------------------");
-            System.out.println(format(Locale.ENGLISH, "       %s (%s)", country.getName(), country.getCode()));
+            System.out.println(format(Locale.ENGLISH, "       %s (%s)", country.name, country.code));
             System.out.println("-----------------------------");
 
-            if (country.getStates() != null) {
-                for (State state : country.getStates()) {
+            if (country.states != null) {
+                for (State state : country.states) {
                     System.out.println(format(Locale.ENGLISH, "%s (%s)", state.getName(), state.getCode()));
                 }
             }

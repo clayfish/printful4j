@@ -2,7 +2,7 @@
 
 ## Guidelines for contribution
 
-### While creating issue
+### While creating an issue
 
 If you find some bug (not `NotImplementedException`),
 
