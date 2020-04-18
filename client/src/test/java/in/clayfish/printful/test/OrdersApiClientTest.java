@@ -1,3 +1,28 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2016-2019 ClayFish Technologies LLP
+ * Copyright (c) 2020 ClayFish Technologies
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package in.clayfish.printful.test;
 
 import org.junit.Assert;
@@ -32,7 +57,7 @@ public class OrdersApiClientTest {
 
     @Test
     public void testGetListOfOrders() {
-        List<Order> orders = client.getListOfOrders(OrderStatus.DRAFT, 0, 0).result;
+        List<Order> orders = client.getListOfOrders(OrderStatus.DRAFT, 0, 0).getResult();
         System.out.println(orders.size());
     }
 
@@ -57,21 +82,21 @@ public class OrdersApiClientTest {
 
         Response<Order> orderResponse = client.createANewOrder(order, false, false);
 
-        Assert.assertTrue(orderResponse.code == 200);
+        Assert.assertEquals(200, orderResponse.getCode());
 
-        System.out.println(orderResponse.code + ": " + orderResponse.result);
+        System.out.println(orderResponse.getCode() + ": " + orderResponse.getResult());
     }
 
     @Test
     public void testGetOrderData1() {
         Response<Order> orderResponse = client.getOrderData(1899732);
-        Assert.assertTrue(orderResponse.code == 200);
+        Assert.assertEquals(200, orderResponse.getCode());
     }
 
     @Test
     public void testGetOrderData2() {
         Response<Order> orderResponse = client.getOrderData("12332");
-        Assert.assertTrue(orderResponse.code == 200);
+        Assert.assertEquals(200, orderResponse.getCode());
     }
 
     @Test
